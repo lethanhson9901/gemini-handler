@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-A robust Python library for managing Google's Gemini API with intelligent key rotation, multiple generation strategies, and comprehensive error handling.
+A Python library for managing Google's Gemini API with intelligent key rotation, multiple generation strategies, and comprehensive error handling.
 
 ## Features
 
@@ -29,9 +29,11 @@ A robust Python library for managing Google's Gemini API with intelligent key ro
 - Detailed error reporting
 
 ## Installation
+I try to keep this efficient:
+Download `gemini-handler.py` then use as file
 
 ```bash
-pip install gemini-api-handler
+pip install google-generativeai
 ```
 
 ## Quick Start
