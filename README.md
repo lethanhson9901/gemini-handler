@@ -1,180 +1,253 @@
-# Gemini API Handler
+# Gemini API Handler Configuration Guide
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+A comprehensive guide to configuring and using the Gemini API Handler with detailed examples and best practices.
 
-A Python library for managing Google's Gemini API with intelligent key rotation, multiple generation strategies, and comprehensive error handling.
-
-## Features
-
-🔄 **Smart Key Rotation**
-- Multiple rotation strategies (Round Robin, Sequential, Least Used, Smart Cooldown)
-- Automatic rate limit management
-- Load balancing across multiple API keys
-
-🚀 **Flexible Generation Strategies**
-- Round Robin: Cycle through models for optimal performance
-- Fallback: Gracefully handle model unavailability
-- Retry: Automatic retries with configurable backoff
-
-⚡ **High Performance**
-- Parallel processing capabilities
-- Efficient key usage management
-- Optimized response handling
-
-🛡 **Robust Error Handling**
-- Comprehensive error recovery
-- Rate limit protection
-- Detailed error reporting
+## Table of Contents
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Configuration File](#configuration-file)
+- [Configuration Options](#configuration-options)
+- [Advanced Usage Examples](#advanced-usage-examples)
+- [Security Best Practices](#security-best-practices)
+- [Environment Variables](#environment-variables)
+- [Troubleshooting](#troubleshooting)
 
 ## Installation
-I try to keep this efficient:
-Download `gemini-handler.py` then use as file
 
 ```bash
-pip install google-generativeai
+pip install gemini-api-handler  # Package name placeholder
 ```
 
 ## Quick Start
 
+1. Create a `config.yaml` file:
+```yaml
+gemini:
+  api_keys:
+    - "your-api-key-1"
+    - "your-api-key-2"
+  generation:
+    temperature: 0.7
+```
+
+2. Basic usage:
+```python
+from gemini_handler import GeminiHandler
+
+handler = GeminiHandler(config_path="config.yaml")
+response = handler.generate_content("Write a story about space exploration")
+print(response['text'])
+```
+
+## Configuration File
+
+Complete `config.yaml` structure with default values:
+
+```yaml
+gemini:
+  # Required: API Keys
+  api_keys:
+    - "your-api-key-1"
+    - "your-api-key-2"
+
+  # Optional: Generation Settings
+  generation:
+    temperature: 0.7
+    top_p: 1.0
+    top_k: 40
+    max_output_tokens: 8192
+    stop_sequences: []
+    response_mime_type: "text/plain"
+
+  # Optional: Rate Limiting
+  rate_limits:
+    requests_per_minute: 60
+    reset_window: 60  # seconds
+
+  # Optional: Strategies
+  strategies:
+    content: "round_robin"  # round_robin, fallback, retry
+    key_rotation: "smart_cooldown"  # smart_cooldown, sequential, round_robin, least_used
+
+  # Optional: Retry Settings
+  retry:
+    max_attempts: 3
+    delay: 30  # seconds
+
+  # Optional: Model Settings
+  default_model: "gemini-2.0-flash-exp"
+  system_instruction: null  # Custom system prompt
+```
+
+## Configuration Options
+
+### API Keys
+Required authentication credentials:
+```yaml
+gemini:
+  api_keys:
+    - "key1"  # Primary key
+    - "key2"  # Backup key
+```
+
+### Generation Settings
+Fine-tune output generation:
+```yaml
+generation:
+  temperature: 0.7        # Higher = more creative
+  top_p: 0.95            # Nucleus sampling threshold
+  top_k: 40              # Top-k sampling parameter
+  max_output_tokens: 4096 # Maximum response length
+```
+
+### Rate Limiting
+Control API usage:
+```yaml
+rate_limits:
+  requests_per_minute: 60  # Maximum requests per key
+  reset_window: 60         # Reset period in seconds
+```
+
+### Strategies
+Configure content generation behavior:
+```yaml
+strategies:
+  content: "round_robin"    # Model selection strategy
+  key_rotation: "smart_cooldown"  # API key management
+```
+
+## Advanced Usage Examples
+
+### 1. Basic Content Generation
+```python
+from gemini_handler import GeminiHandler
+
+handler = GeminiHandler(config_path="config.yaml")
+
+# Simple generation
+response = handler.generate_content(
+    prompt="Explain quantum computing"
+)
+print(response['text'])
+```
+
+### 2. Custom Model Selection
+```python
+# Use specific model
+response = handler.generate_content(
+    prompt="Write a poem",
+    model_name="gemini-2.0-flash-exp"
+)
+
+# With generation stats
+response = handler.generate_content(
+    prompt="Write a technical analysis",
+    model_name="gemini-1.5-pro",
+    return_stats=True
+)
+```
+
+### 3. Strategy-Specific Usage
 ```python
 from gemini_handler import GeminiHandler, Strategy, KeyRotationStrategy
 
-# Initialize handler
+# Round-robin strategy
 handler = GeminiHandler(
-    api_keys=['your-api-key-1', 'your-api-key-2'],
+    config_path="config.yaml",
     content_strategy=Strategy.ROUND_ROBIN,
     key_strategy=KeyRotationStrategy.SMART_COOLDOWN
 )
 
-# Generate content
+# Generate with monitoring
 response = handler.generate_content(
-    prompt="Your prompt here",
-    model_name="gemini-2.0-flash-exp"
+    prompt="Complex analysis task",
+    return_stats=True
 )
 
-print(response['text'])
+# Print performance metrics
+print(f"Generation time: {response['time']}s")
+print(f"API key usage: {response['key_stats']}")
 ```
 
-## Basic Usage
-
-### Key Rotation Management
-
+### 4. Error Handling
 ```python
-# Configure handler with key rotation strategy
+response = handler.generate_content("Your prompt")
+if response['success']:
+    print(response['text'])
+else:
+    print(f"Error: {response['error']}")
+    print(f"Attempts made: {response['attempts']}")
+```
+
+## Security Best Practices
+
+1. Protect your configuration:
+```bash
+# Add to .gitignore
+echo "config.yaml" >> .gitignore
+```
+
+2. Use environment variables in production:
+```bash
+# Set variables
+export GEMINI_API_KEYS="key1,key2,key3"
+
+# Use in code
+handler = GeminiHandler()  # Automatically reads from env
+```
+
+3. Implement key rotation:
+```python
+# Configure smart key rotation
 handler = GeminiHandler(
-    api_keys=api_keys,
-    key_strategy=KeyRotationStrategy.SMART_COOLDOWN,
-    rate_limit=60,  # Requests per minute
-    reset_window=60  # Reset window in seconds
+    config_path="config.yaml",
+    key_strategy=KeyRotationStrategy.SMART_COOLDOWN
 )
 ```
 
-### Content Generation Strategies
+## Environment Variables
 
+Alternative to `config.yaml`:
+```bash
+# Multiple keys
+export GEMINI_API_KEYS="key1,key2,key3"
+
+# Single key
+export GEMINI_API_KEY="your-key"
+
+# Optional settings
+export GEMINI_DEFAULT_MODEL="gemini-2.0-flash-exp"
+export GEMINI_MAX_RETRIES="3"
+```
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. Rate Limiting
 ```python
-# Round Robin Strategy - Cycle through models
-handler = GeminiHandler(
-    api_keys=api_keys,
-    content_strategy=Strategy.ROUND_ROBIN
-)
+# Monitor key usage
+stats = handler.get_key_stats()
+print(stats)  # Check rate limit status
+```
 
-# Fallback Strategy - Try alternate models on failure
+2. Model Availability
+```python
+# Fallback strategy for reliability
 handler = GeminiHandler(
-    api_keys=api_keys,
+    config_path="config.yaml",
     content_strategy=Strategy.FALLBACK
 )
+```
 
-# Retry Strategy - Multiple attempts with same model
+3. Performance Optimization
+```python
+# Optimize for high-throughput
 handler = GeminiHandler(
-    api_keys=api_keys,
+    config_path="config.yaml",
+    key_strategy=KeyRotationStrategy.ROUND_ROBIN,
     content_strategy=Strategy.RETRY
 )
 ```
 
-## Advanced Configuration
-
-### Custom Generation Parameters
-
-```python
-from gemini_handler import GenerationConfig
-
-config = GenerationConfig(
-    temperature=0.7,
-    top_p=0.9,
-    top_k=40,
-    max_output_tokens=8192
-)
-
-handler = GeminiHandler(
-    api_keys=api_keys,
-    generation_config=config
-)
-```
-
-### Monitoring Key Usage
-
-```python
-# Get usage statistics
-stats = handler.get_key_stats()
-
-for key_index, key_stats in stats.items():
-    print(f"Key {key_index}:")
-    print(f"  Uses: {key_stats['uses']}")
-    print(f"  Failures: {key_stats['failures']}")
-    print(f"  Rate limited until: {key_stats['rate_limited_until']}")
-```
-
-## API Reference
-
-### GeminiHandler
-
-```python
-GeminiHandler(
-    api_keys: List[str],
-    content_strategy: Strategy = Strategy.ROUND_ROBIN,
-    key_strategy: KeyRotationStrategy = KeyRotationStrategy.ROUND_ROBIN,
-    system_instruction: Optional[str] = None,
-    generation_config: Optional[GenerationConfig] = None
-)
-```
-
-#### Methods
-
-- `generate_content(prompt: str, model_name: Optional[str] = None, return_stats: bool = False) -> Dict[str, Any]`
-- `get_key_stats(key_index: Optional[int] = None) -> Dict[int, Dict[str, Any]]`
-
-### Strategy Enum
-
-- `ROUND_ROBIN`: Cycle through available models
-- `FALLBACK`: Try alternate models on failure
-- `RETRY`: Multiple attempts with same model
-
-### KeyRotationStrategy Enum
-
-- `SEQUENTIAL`: Use keys in order
-- `ROUND_ROBIN`: Distribute load evenly
-- `LEAST_USED`: Prioritize underutilized keys
-- `SMART_COOLDOWN`: Advanced strategy considering multiple factors
-
-## Error Handling
-
-The handler provides comprehensive error handling:
-
-```python
-try:
-    response = handler.generate_content(prompt)
-    if not response['success']:
-        print(f"Generation failed: {response['error']}")
-except Exception as e:
-    print(f"Error: {str(e)}")
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+For more detailed information and updates, refer to the [official documentation](#).
