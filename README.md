@@ -15,7 +15,7 @@ A comprehensive guide to configuring and using the Gemini API Handler with detai
 ## Installation
 
 ```bash
-pip install gemini-api-handler  # Package name placeholder
+pip install google-generativeai
 ```
 
 ## Quick Start
