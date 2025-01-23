@@ -66,7 +66,7 @@ gemini:
 
   # Optional: Strategies
   strategies:
-    content: "round_robin"  # round_robin, fallback, retry
+    content: "fallback"  # round_robin, fallback, retry
     key_rotation: "smart_cooldown"  # smart_cooldown, sequential, round_robin, least_used
 
   # Optional: Retry Settings
