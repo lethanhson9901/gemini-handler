@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
 import google.generativeai as genai
 import time
-from typing import List, Dict, Any, Optional, Tuple
+import os
+import yaml
+from typing import List, Dict, Any, Optional, Tuple, Union
 from enum import Enum
 from dataclasses import dataclass
 from itertools import cycle
-
+from pathlib import Path
 
 @dataclass
 class GenerationConfig:
@@ -56,6 +58,48 @@ class KeyStats:
     last_used: float = 0
     failures: int = 0
     rate_limited_until: float = 0
+
+
+class ConfigLoader:
+    """Handles loading configuration from various sources."""
+    
+    @staticmethod
+    def load_api_keys(config_path: Optional[Union[str, Path]] = None) -> List[str]:
+        """
+        Load API keys from multiple sources in priority order:
+        1. YAML config file if provided
+        2. Environment variables (GEMINI_API_KEYS as comma-separated string)
+        3. Single GEMINI_API_KEY environment variable
+        """
+        # Try loading from YAML config
+        if config_path:
+            try:
+                with open(config_path, 'r') as f:
+                    config = yaml.safe_load(f)
+                    if config and 'gemini' in config and 'api_keys' in config['gemini']:
+                        keys = config['gemini']['api_keys']
+                        if isinstance(keys, list) and all(isinstance(k, str) for k in keys):
+                            return keys
+            except Exception as e:
+                print(f"Warning: Failed to load config from {config_path}: {e}")
+
+        # Try loading from GEMINI_API_KEYS environment variable
+        api_keys_str = os.getenv('GEMINI_API_KEYS')
+        if api_keys_str:
+            keys = [k.strip() for k in api_keys_str.split(',') if k.strip()]
+            if keys:
+                return keys
+
+        # Try loading single API key
+        single_key = os.getenv('GEMINI_API_KEY')
+        if single_key:
+            return [single_key]
+
+        raise ValueError(
+            "No API keys found. Please provide keys via config file, "
+            "GEMINI_API_KEYS environment variable (comma-separated), "
+            "or GEMINI_API_KEY environment variable."
+        )
 
 
 class ModelConfig:
@@ -394,15 +438,30 @@ class GeminiHandler:
     """Main handler class for Gemini API interactions."""
     def __init__(
         self,
-        api_keys: List[str],
+        api_keys: Optional[List[str]] = None,
+        config_path: Optional[Union[str, Path]] = None,
         content_strategy: Strategy = Strategy.ROUND_ROBIN,
         key_strategy: KeyRotationStrategy = KeyRotationStrategy.ROUND_ROBIN,
         system_instruction: Optional[str] = None,
         generation_config: Optional[GenerationConfig] = None
     ):
+        """
+        Initialize GeminiHandler with flexible configuration options.
+        
+        Args:
+            api_keys: Optional list of API keys
+            config_path: Optional path to YAML config file
+            content_strategy: Strategy for content generation
+            key_strategy: Strategy for key rotation
+            system_instruction: Optional system instruction
+            generation_config: Optional generation configuration
+        """
+        # Load API keys from provided list or config sources
+        self.api_keys = api_keys or ConfigLoader.load_api_keys(config_path)
+        
         self.config = ModelConfig()
         self.key_manager = KeyRotationManager(
-            api_keys=api_keys,
+            api_keys=self.api_keys,
             strategy=key_strategy,
             rate_limit=60,
             reset_window=60
@@ -498,5 +557,3 @@ class GeminiHandler:
             }
             for idx, stats in self.key_manager.key_stats.items()
         }
-
-
