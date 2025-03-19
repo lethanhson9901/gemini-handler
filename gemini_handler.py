@@ -115,7 +115,7 @@ class ModelConfig:
             "gemini-1.5-pro",
             "gemini-embedding-exp",
             "imagen-3.0-generate-002",
-            "gemini-2.0-flash-thinking-exp-01-21,
+            "gemini-2.0-flash-thinking-exp-01-21",
             "gemini-exp-1206",            
         ]
         self.max_retries = 3
