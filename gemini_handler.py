@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-import google.generativeai as genai
-import time
+import json
 import os
-import yaml
-from typing import List, Dict, Any, Optional, Tuple, Union
+import time
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
 from enum import Enum
-from dataclasses import dataclass
 from itertools import cycle
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import google.generativeai as genai
+import yaml
+
 
 @dataclass
 class GenerationConfig:
@@ -18,6 +21,7 @@ class GenerationConfig:
     max_output_tokens: int = 8192
     stop_sequences: Optional[List[str]] = None
     response_mime_type: str = "text/plain"
+    response_schema: Optional[Dict[str, Any]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary, excluding None values."""
@@ -34,6 +38,7 @@ class ModelResponse:
     time: float = 0.0
     attempts: int = 1
     api_key_index: int = 0
+    structured_data: Optional[Dict[str, Any]] = None
 
 
 class Strategy(Enum):
@@ -111,7 +116,6 @@ class ModelConfig:
             "gemini-2.0-pro-exp-02-05",
             "gemini-1.5-flash",
             "gemini-1.5-flash-8b",
-            "gemini-1.5-pro"
             "gemini-1.5-pro",
             "gemini-embedding-exp",
             "imagen-3.0-generate-002",
@@ -272,7 +276,8 @@ class ResponseHandler:
         response: Any,
         model_name: str,
         start_time: float,
-        key_index: int
+        key_index: int,
+        response_mime_type: str = "text/plain"
     ) -> ModelResponse:
         """Process and validate model response."""
         try:
@@ -287,13 +292,23 @@ class ResponseHandler:
                         api_key_index=key_index
                     )
             
-            return ModelResponse(
+            result = ModelResponse(
                 success=True,
                 model=model_name,
                 text=response.text,
                 time=time.time() - start_time,
                 api_key_index=key_index
             )
+            
+            # Handle structured data
+            if response_mime_type == "application/json":
+                try:
+                    result.structured_data = json.loads(response.text)
+                except json.JSONDecodeError:
+                    result.success = False
+                    result.error = "Failed to parse JSON response"
+            
+            return result
         except Exception as e:
             if "The `response.text` quick accessor requires the response to contain a valid `Part`" in str(e):
                 return ModelResponse(
@@ -330,14 +345,24 @@ class ContentStrategy(ABC):
         api_key, key_index = self.key_manager.get_next_key()
         try:
             genai.configure(api_key=api_key)
+            gen_config = self.generation_config.to_dict()
+            
             model = genai.GenerativeModel(
                 model_name=model_name,
-                generation_config=self.generation_config.to_dict(),
+                generation_config=gen_config,
                 system_instruction=self.system_instruction
             )
+            
             response = model.generate_content(prompt)
             
-            result = ResponseHandler.process_response(response, model_name, start_time, key_index)
+            result = ResponseHandler.process_response(
+                response, 
+                model_name, 
+                start_time, 
+                key_index,
+                self.generation_config.response_mime_type
+            )
+            
             if result.success:
                 self.key_manager.mark_success(key_index)
             return result
@@ -470,7 +495,7 @@ class GeminiHandler:
             reset_window=60
         )
         self.system_instruction = system_instruction
-        self.generation_config = generation_config
+        self.generation_config = generation_config or GenerationConfig()
         self._strategy = self._create_strategy(content_strategy)
 
     def _create_strategy(self, strategy: Strategy) -> ContentStrategy:
@@ -527,6 +552,58 @@ class GeminiHandler:
             }
             
         return result
+
+    def generate_structured_content(
+        self,
+        prompt: str,
+        schema: Dict[str, Any],
+        model_name: Optional[str] = None,
+        return_stats: bool = False,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        top_k: Optional[int] = None,
+        max_output_tokens: Optional[int] = None
+    ) -> Dict[str, Any]:
+        """
+        Generate structured content according to the provided schema.
+        
+        Args:
+            prompt: The input prompt for content generation
+            schema: JSON schema that defines the structure of the response
+            model_name: Optional specific model to use (default: None)
+            return_stats: Whether to include key usage statistics (default: False)
+            temperature: Optional temperature to override default
+            top_p: Optional top_p to override default
+            top_k: Optional top_k to override default
+            max_output_tokens: Optional max_output_tokens to override default
+            
+        Returns:
+            Dictionary containing generation results and optionally key statistics
+        """
+        # Create a structured generation config based on current config
+        original_config = self.generation_config
+        
+        # Create new config with structured output settings
+        structured_config = GenerationConfig(
+            temperature=temperature if temperature is not None else original_config.temperature,
+            top_p=top_p if top_p is not None else original_config.top_p,
+            top_k=top_k if top_k is not None else original_config.top_k,
+            max_output_tokens=max_output_tokens if max_output_tokens is not None else original_config.max_output_tokens,
+            stop_sequences=original_config.stop_sequences,
+            response_mime_type="application/json",
+            response_schema=schema
+        )
+        
+        # Update the strategy with the new config
+        self._strategy.generation_config = structured_config
+        
+        try:
+            # Generate the content
+            result = self.generate_content(prompt, model_name, return_stats)
+            return result
+        finally:
+            # Restore the original config
+            self._strategy.generation_config = original_config
 
     def get_key_stats(self, key_index: Optional[int] = None) -> Dict[int, Dict[str, Any]]:
         """
