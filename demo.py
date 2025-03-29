@@ -22,7 +22,7 @@ handler = GeminiHandler(config_path="config.yaml")
 result = handler.generate_structured_content(
     prompt="What's a good mystery movie?",
     schema=movie_schema,
-    model_name="gemini-1.5-pro"
+    # model_name="gemini-1.5-pro"
 )
 
 # Access the structured data

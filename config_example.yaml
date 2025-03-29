@@ -1,7 +1,8 @@
 gemini:
   # Required: API Keys
   api_keys:
-    - "AIzaSyAM8VMtzRI8hwGJxQi1MJsaMbTE9TUgoSo"
+    - "your-api-key-1"
+    - "your-api-key-2"
 
   # Optional: Generation Settings
   generation:

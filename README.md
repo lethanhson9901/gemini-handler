@@ -1,253 +1,261 @@
-# Gemini API Handler Configuration Guide
+# Gemini Handler
 
-A comprehensive guide to configuring and using the Gemini API Handler with detailed examples and best practices.
+Thư viện Python giúp tương tác hiệu quả với API Gemini của Google, với các tính năng quản lý API key thông minh và xử lý phản hồi linh hoạt.
 
-## Table of Contents
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Configuration File](#configuration-file)
-- [Configuration Options](#configuration-options)
-- [Advanced Usage Examples](#advanced-usage-examples)
-- [Security Best Practices](#security-best-practices)
-- [Environment Variables](#environment-variables)
-- [Troubleshooting](#troubleshooting)
+## Tính năng nổi bật
 
-## Installation
+- **Quản lý nhiều API key**: Tự động luân chuyển, tối ưu hóa sử dụng và xử lý giới hạn tốc độ
+- **Đa dạng chiến lược tạo nội dung**: Hỗ trợ nhiều phương pháp như luân phiên, dự phòng và thử lại
+- **Hỗ trợ đầu ra có cấu trúc**: Tạo dữ liệu JSON theo schema tùy chỉnh
+- **Xử lý lỗi thông minh**: Tự động thử lại và chuyển đổi phương án khi gặp lỗi
+- **Theo dõi hiệu suất**: Giám sát việc sử dụng API và thời gian phản hồi
+
+## Cài đặt
 
 ```bash
-pip install google-generativeai
+pip install gemini-handler
 ```
 
-## Quick Start
+Hoặc cài đặt từ mã nguồn:
 
-1. Create a `config.yaml` file:
-```yaml
-gemini:
-  api_keys:
-    - "your-api-key-1"
-    - "your-api-key-2"
-  generation:
-    temperature: 0.7
+```bash
+git clone https://github.com/yourusername/gemini-handler.git
+cd gemini-handler
+pip install -e .
 ```
 
-2. Basic usage:
+## Hướng dẫn sử dụng cơ bản
+
+### Tạo nội dung đơn giản
+
 ```python
 from gemini_handler import GeminiHandler
 
-handler = GeminiHandler(config_path="config.yaml")
-response = handler.generate_content("Write a story about space exploration")
-print(response['text'])
-```
-
-## Configuration File
-
-Complete `config.yaml` structure with default values:
-
-```yaml
-gemini:
-  # Required: API Keys
-  api_keys:
-    - "your-api-key-1"
-    - "your-api-key-2"
-
-  # Optional: Generation Settings
-  generation:
-    temperature: 0.7
-    top_p: 1.0
-    top_k: 40
-    max_output_tokens: 8192
-    stop_sequences: []
-    response_mime_type: "text/plain"
-
-  # Optional: Rate Limiting
-  rate_limits:
-    requests_per_minute: 60
-    reset_window: 60  # seconds
-
-  # Optional: Strategies
-  strategies:
-    content: "fallback"  # round_robin, fallback, retry
-    key_rotation: "smart_cooldown"  # smart_cooldown, sequential, round_robin, least_used
-
-  # Optional: Retry Settings
-  retry:
-    max_attempts: 3
-    delay: 30  # seconds
-
-  # Optional: Model Settings
-  default_model: "gemini-2.0-flash-exp"
-  system_instruction: null  # Custom system prompt
-```
-
-## Configuration Options
-
-### API Keys
-Required authentication credentials:
-```yaml
-gemini:
-  api_keys:
-    - "key1"  # Primary key
-    - "key2"  # Backup key
-```
-
-### Generation Settings
-Fine-tune output generation:
-```yaml
-generation:
-  temperature: 0.7        # Higher = more creative
-  top_p: 0.95            # Nucleus sampling threshold
-  top_k: 40              # Top-k sampling parameter
-  max_output_tokens: 4096 # Maximum response length
-```
-
-### Rate Limiting
-Control API usage:
-```yaml
-rate_limits:
-  requests_per_minute: 60  # Maximum requests per key
-  reset_window: 60         # Reset period in seconds
-```
-
-### Strategies
-Configure content generation behavior:
-```yaml
-strategies:
-  content: "round_robin"    # Model selection strategy
-  key_rotation: "smart_cooldown"  # API key management
-```
-
-## Advanced Usage Examples
-
-### 1. Basic Content Generation
-```python
-from gemini_handler import GeminiHandler
-
+# Khởi tạo handler với file cấu hình
 handler = GeminiHandler(config_path="config.yaml")
 
-# Simple generation
-response = handler.generate_content(
-    prompt="Explain quantum computing"
-)
-print(response['text'])
-```
+# Tạo nội dung
+response = handler.generate_content("Giải thích về trí tuệ nhân tạo cho người mới bắt đầu")
 
-### 2. Custom Model Selection
-```python
-# Use specific model
-response = handler.generate_content(
-    prompt="Write a poem",
-    model_name="gemini-2.0-flash-exp"
-)
-
-# With generation stats
-response = handler.generate_content(
-    prompt="Write a technical analysis",
-    model_name="gemini-1.5-pro",
-    return_stats=True
-)
-```
-
-### 3. Strategy-Specific Usage
-```python
-from gemini_handler import GeminiHandler, Strategy, KeyRotationStrategy
-
-# Round-robin strategy
-handler = GeminiHandler(
-    config_path="config.yaml",
-    content_strategy=Strategy.ROUND_ROBIN,
-    key_strategy=KeyRotationStrategy.SMART_COOLDOWN
-)
-
-# Generate with monitoring
-response = handler.generate_content(
-    prompt="Complex analysis task",
-    return_stats=True
-)
-
-# Print performance metrics
-print(f"Generation time: {response['time']}s")
-print(f"API key usage: {response['key_stats']}")
-```
-
-### 4. Error Handling
-```python
-response = handler.generate_content("Your prompt")
+# Kiểm tra và hiển thị kết quả
 if response['success']:
     print(response['text'])
 else:
-    print(f"Error: {response['error']}")
-    print(f"Attempts made: {response['attempts']}")
+    print(f"Lỗi: {response['error']}")
 ```
 
-## Security Best Practices
+### Tạo dữ liệu có cấu trúc
 
-1. Protect your configuration:
-```bash
-# Add to .gitignore
-echo "config.yaml" >> .gitignore
-```
-
-2. Use environment variables in production:
-```bash
-# Set variables
-export GEMINI_API_KEYS="key1,key2,key3"
-
-# Use in code
-handler = GeminiHandler()  # Automatically reads from env
-```
-
-3. Implement key rotation:
 ```python
-# Configure smart key rotation
+# Định nghĩa cấu trúc dữ liệu mong muốn
+movie_schema = {
+    "type": "object",
+    "properties": {
+        "title": {"type": "string", "description": "Tên phim"},
+        "director": {"type": "string", "description": "Đạo diễn"},
+        "year": {"type": "integer", "description": "Năm phát hành"},
+        "rating": {"type": "number", "description": "Điểm đánh giá"}
+    },
+    "required": ["title", "director", "year", "rating"]
+}
+
+# Tạo dữ liệu có cấu trúc
+result = handler.generate_structured_content(
+    prompt="Giới thiệu một bộ phim khoa học viễn tưởng hay",
+    schema=movie_schema
+)
+
+# Hiển thị kết quả
+if result['success']:
+    movie = result['structured_data']
+    print(f"Tên phim: {movie['title']}")
+    print(f"Đạo diễn: {movie['director']}")
+    print(f"Năm: {movie['year']}")
+    print(f"Điểm đánh giá: {movie['rating']}")
+```
+
+## Cấu hình
+
+Tạo file `config.yaml` với các thiết lập sau:
+
+```yaml
+gemini:
+  # API Keys (bắt buộc)
+  api_keys:
+    - "api-key-1-của-bạn"
+    - "api-key-2-của-bạn"
+
+  # Cài đặt tạo nội dung (tùy chọn)
+  generation:
+    temperature: 0.7          # Độ sáng tạo (0.0-1.0)
+    top_p: 1.0                # Ngưỡng lấy mẫu
+    top_k: 40                 # Số lượng token xem xét
+    max_output_tokens: 8192   # Độ dài tối đa của phản hồi
+
+  # Giới hạn tốc độ (tùy chọn)
+  rate_limits:
+    requests_per_minute: 60   # Số request tối đa mỗi phút
+    reset_window: 60          # Thời gian làm mới (giây)
+
+  # Chiến lược (tùy chọn)
+  strategies:
+    content: "round_robin"    # Chiến lược tạo nội dung
+    key_rotation: "smart_cooldown"  # Chiến lược luân chuyển key
+
+  # Cài đặt thử lại (tùy chọn)
+  retry:
+    max_attempts: 3           # Số lần thử tối đa
+    delay: 30                 # Thời gian chờ giữa các lần thử (giây)
+
+  # Model mặc định (tùy chọn)
+  default_model: "gemini-2.0-flash-exp"
+```
+
+## Các chiến lược
+
+### Chiến lược tạo nội dung
+
+| Chiến lược | Mô tả | Khi nào sử dụng |
+|------------|-------|-----------------|
+| **Round Robin** (Luân phiên) | Sử dụng lần lượt các model theo vòng tròn | Khi muốn phân tán tải đều cho các model |
+| **Fallback** (Dự phòng) | Thử model theo thứ tự, chuyển sang model tiếp theo khi gặp lỗi | Khi cần độ tin cậy cao |
+| **Retry** (Thử lại) | Thử lại cùng một model nhiều lần khi gặp lỗi | Khi muốn nhất quán về model sử dụng |
+
+### Chiến lược luân chuyển API key
+
+| Chiến lược | Mô tả | Khi nào sử dụng |
+|------------|-------|-----------------|
+| **Sequential** (Tuần tự) | Sử dụng các key theo thứ tự cố định | Khi muốn ưu tiên một số key nhất định |
+| **Round Robin** (Luân phiên) | Sử dụng các key lần lượt theo vòng tròn | Khi muốn phân bổ đều các request |
+| **Least Used** (Ít dùng nhất) | Ưu tiên key có số lần sử dụng ít nhất | Khi cần cân bằng tải giữa các key |
+| **Smart Cooldown** (Làm mát thông minh) | Tự động điều chỉnh việc sử dụng key dựa trên lỗi | Khi cần khả năng tự phục hồi cao |
+
+## Sử dụng nâng cao
+
+### Tùy chỉnh chiến lược
+
+```python
+from gemini_handler import GeminiHandler, Strategy, KeyRotationStrategy
+
+# Khởi tạo với chiến lược tùy chỉnh
 handler = GeminiHandler(
     config_path="config.yaml",
-    key_strategy=KeyRotationStrategy.SMART_COOLDOWN
+    content_strategy=Strategy.FALLBACK,         # Dùng chiến lược dự phòng
+    key_strategy=KeyRotationStrategy.SMART_COOLDOWN  # Dùng chiến lược làm mát thông minh
 )
 ```
 
-## Environment Variables
+### Theo dõi hiệu suất
 
-Alternative to `config.yaml`:
+```python
+# Tạo nội dung với thông tin hiệu suất
+response = handler.generate_content(
+    prompt="Viết một bài phân tích về xu hướng AI năm 2023",
+    return_stats=True
+)
+
+# Hiển thị thông tin hiệu suất
+print(f"Thời gian tạo: {response['time']} giây")
+print(f"Model đã sử dụng: {response['model']}")
+```
+
+### Giám sát sử dụng API key
+
+```python
+# Lấy thống kê sử dụng key
+key_stats = handler.get_key_stats()
+
+# Hiển thị thông tin từng key
+for key_idx, stats in key_stats.items():
+    print(f"Key {key_idx}:")
+    print(f"  Số lần sử dụng: {stats['uses']}")
+    print(f"  Lần cuối sử dụng: {stats['last_used']}")
+    print(f"  Số lần thất bại: {stats['failures']}")
+```
+
+## Xử lý lỗi
+
+```python
+# Tạo nội dung với xử lý lỗi
+response = handler.generate_content("Prompt của bạn")
+
+# Kiểm tra kết quả
+if response['success']:
+    print(response['text'])
+else:
+    print(f"Lỗi: {response['error']}")
+    print(f"Số lần thử: {response['attempts']}")
+    print(f"Model đã thử: {response['model']}")
+```
+
+## Sử dụng biến môi trường
+
+Bạn cũng có thể cấu hình thông qua biến môi trường:
+
 ```bash
-# Multiple keys
+# Nhiều key
 export GEMINI_API_KEYS="key1,key2,key3"
 
-# Single key
-export GEMINI_API_KEY="your-key"
+# Một key
+export GEMINI_API_KEY="key-của-bạn"
 
-# Optional settings
+# Cài đặt khác
 export GEMINI_DEFAULT_MODEL="gemini-2.0-flash-exp"
 export GEMINI_MAX_RETRIES="3"
 ```
 
-## Troubleshooting
+## Ví dụ thực tế
 
-Common issues and solutions:
+### Xây dựng chatbot với xử lý lỗi mạnh mẽ
 
-1. Rate Limiting
 ```python
-# Monitor key usage
-stats = handler.get_key_stats()
-print(stats)  # Check rate limit status
-```
+from gemini_handler import GeminiHandler, Strategy, KeyRotationStrategy
 
-2. Model Availability
-```python
-# Fallback strategy for reliability
+# Khởi tạo handler với chiến lược tối ưu
 handler = GeminiHandler(
     config_path="config.yaml",
-    content_strategy=Strategy.FALLBACK
+    content_strategy=Strategy.FALLBACK,
+    key_strategy=KeyRotationStrategy.SMART_COOLDOWN
 )
+
+def chat_with_user():
+    print("Chatbot: Xin chào! Tôi có thể giúp gì cho bạn?")
+    
+    while True:
+        user_input = input("Bạn: ")
+        if user_input.lower() in ["tạm biệt", "bye", "exit"]:
+            print("Chatbot: Tạm biệt! Hẹn gặp lại!")
+            break
+            
+        # Tạo phản hồi với xử lý lỗi
+        response = handler.generate_content(
+            prompt=f"User: {user_input}\nChatbot:",
+            model_name="gemini-2.0-flash-exp"
+        )
+        
+        if response['success']:
+            print(f"Chatbot: {response['text']}")
+        else:
+            # Thử lại với model khác nếu gặp lỗi
+            fallback_response = handler.generate_content(
+                prompt=f"User: {user_input}\nChatbot:",
+                model_name="gemini-1.5-flash"
+            )
+            
+            if fallback_response['success']:
+                print(f"Chatbot: {fallback_response['text']}")
+            else:
+                print("Chatbot: Xin lỗi, tôi đang gặp vấn đề kỹ thuật. Vui lòng thử lại sau.")
+
+# Chạy chatbot
+if __name__ == "__main__":
+    chat_with_user()
 ```
 
-3. Performance Optimization
-```python
-# Optimize for high-throughput
-handler = GeminiHandler(
-    config_path="config.yaml",
-    key_strategy=KeyRotationStrategy.ROUND_ROBIN,
-    content_strategy=Strategy.RETRY
-)
-```
+## Giấy phép
 
-For more detailed information and updates, refer to the [official documentation](#).
+Dự án này được phát hành theo Giấy phép MIT - xem file LICENSE để biết thêm chi tiết.
+
+## Đóng góp
+
+Mọi đóng góp đều được chào đón! Vui lòng tạo Pull Request hoặc mở Issue nếu bạn có ý tưởng cải tiến.
