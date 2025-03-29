@@ -1,3 +1,21 @@
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "gemini_handler"
+version = "0.1.0"
+description = "A powerful Python library for interacting with Google's Gemini API"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = [
+    "google-generativeai>=0.3.0",
+    "google-genai>=0.1.0",
+    "pyyaml>=6.0",
+    "numpy>=1.20.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/lethanhson9901/gemini-handler"
+"Bug Tracker" = "https://github.com/lethanhson9901/gemini-handler/issues"

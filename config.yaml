@@ -30,3 +30,20 @@ gemini:
   # Optional: Model Settings
   default_model: "gemini-2.0-flash-exp"
   system_instruction: null  # Custom system prompt
+
+  # Embedding Settings
+  embedding:
+    default_model: "gemini-embedding-exp-03-07"  # Model mặc định cho embedding
+    dimensions: 768  # Số chiều mặc định (tùy thuộc vào model)
+    batch_size: 10  # Số lượng văn bản tối đa trong một lần gọi API
+    task_types:
+      default: "SEMANTIC_SIMILARITY"  # Task type mặc định
+      supported:
+        - "SEMANTIC_SIMILARITY"
+        - "CLASSIFICATION" 
+        - "CLUSTERING"
+        - "RETRIEVAL_DOCUMENT"
+        - "RETRIEVAL_QUERY"
+        - "QUESTION_ANSWERING"
+        - "FACT_VERIFICATION"
+        - "CODE_RETRIEVAL_QUERY"

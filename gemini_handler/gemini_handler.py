@@ -4,7 +4,14 @@ from typing import Any, Dict, List, Optional, Union
 import google.generativeai as genai
 
 from .config import ConfigLoader
-from .data_models import GenerationConfig, KeyRotationStrategy, ModelConfig, Strategy
+from .data_models import (
+    EmbeddingConfig,
+    GenerationConfig,
+    KeyRotationStrategy,
+    ModelConfig,
+    Strategy,
+)
+from .embedding import EmbeddingHandler
 from .key_rotation import KeyRotationManager
 from .strategies import (
     ContentStrategy,
@@ -49,6 +56,7 @@ class GeminiHandler:
         self.system_instruction = system_instruction
         self.generation_config = generation_config or GenerationConfig()
         self._strategy = self._create_strategy(content_strategy)
+        self.embedding_handler = EmbeddingHandler(self.key_manager)
 
     def _create_strategy(self, strategy: Strategy) -> ContentStrategy:
         """Factory method to create appropriate strategy."""
@@ -156,6 +164,49 @@ class GeminiHandler:
         finally:
             # Restore the original config
             self._strategy.generation_config = original_config
+
+    def generate_embeddings(
+        self,
+        content: Union[str, List[str]],
+        model_name: Optional[str] = None,
+        task_type: Optional[str] = None,
+        return_stats: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Generate embeddings for the provided content.
+        
+        Args:
+            content: Text content to embed (string or list of strings)
+            model_name: Embedding model to use (default: gemini-embedding-exp-03-07)
+            task_type: Optional task type for specialized embeddings
+            return_stats: Whether to include key usage statistics
+            
+        Returns:
+            Dictionary containing embeddings or error information
+        """
+        if not model_name:
+            model_name = self.config.default_embedding_model
+            
+        response = self.embedding_handler.generate_embeddings(
+            content=content,
+            model_name=model_name,
+            task_type=task_type
+        )
+        
+        result = response.__dict__
+        
+        if return_stats:
+            result["key_stats"] = {
+                idx: {
+                    "uses": stats.uses,
+                    "last_used": stats.last_used,
+                    "failures": stats.failures,
+                    "rate_limited_until": stats.rate_limited_until
+                }
+                for idx, stats in self.key_manager.key_stats.items()
+            }
+            
+        return result
 
     def get_key_stats(self, key_index: Optional[int] = None) -> Dict[int, Dict[str, Any]]:
         """

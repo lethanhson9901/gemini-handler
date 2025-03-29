@@ -1,7 +1,7 @@
 # gemini_handler/data_models.py
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 
 class Strategy(Enum):
@@ -45,6 +45,22 @@ class GenerationConfig:
 
 
 @dataclass
+class EmbeddingConfig:
+    """Configuration for embedding generation."""
+    task_type: Optional[str] = None
+    
+    # Task type constants
+    SEMANTIC_SIMILARITY = "SEMANTIC_SIMILARITY"
+    CLASSIFICATION = "CLASSIFICATION"
+    CLUSTERING = "CLUSTERING"
+    RETRIEVAL_DOCUMENT = "RETRIEVAL_DOCUMENT"
+    RETRIEVAL_QUERY = "RETRIEVAL_QUERY"
+    QUESTION_ANSWERING = "QUESTION_ANSWERING"
+    FACT_VERIFICATION = "FACT_VERIFICATION"
+    CODE_RETRIEVAL_QUERY = "CODE_RETRIEVAL_QUERY"
+
+
+@dataclass
 class ModelResponse:
     """Represents a standardized response from any model."""
     success: bool
@@ -55,6 +71,7 @@ class ModelResponse:
     attempts: int = 1
     api_key_index: int = 0
     structured_data: Optional[Dict[str, Any]] = None
+    embeddings: Optional[Union[List[float], List[List[float]]]] = None
 
 
 class ModelConfig:
@@ -88,3 +105,4 @@ class ModelConfig:
         self.max_retries = 3
         self.retry_delay = 30
         self.default_model = self.models[0] if self.models else "gemini-2.0-flash"
+        self.default_embedding_model = "gemini-embedding-exp-03-07"

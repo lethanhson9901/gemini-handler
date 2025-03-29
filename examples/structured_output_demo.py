@@ -16,7 +16,7 @@ movie_schema: Dict[str, Any] = {
 }
 
 # Initialize your handler
-handler = GeminiHandler(config_path="config.yaml")
+handler = GeminiHandler(config_path="../config.yaml")
 
 # Generate structured content
 result = handler.generate_structured_content(

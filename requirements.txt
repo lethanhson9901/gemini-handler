@@ -1,2 +1,4 @@
 google-generativeai
 pyyaml
+numpy
+google-genai

@@ -252,6 +252,29 @@ if __name__ == "__main__":
     chat_with_user()
 ```
 
+## Tạo Embedding
+
+Thư viện hỗ trợ tạo embedding từ văn bản để sử dụng trong các ứng dụng tìm kiếm ngữ nghĩa, phân loại, và nhiều tác vụ khác.
+
+### Tạo Embedding Cơ Bản
+
+```python
+from gemini_handler import GeminiHandler
+
+handler = GeminiHandler(config_path="config.yaml")
+
+# Tạo embedding cho một đoạn văn bản
+result = handler.generate_embeddings(content="Trí tuệ nhân tạo là gì?")
+
+# Kiểm tra kết quả
+if result['success']:
+    embeddings = result['embeddings']
+    print(f"Đã tạo embedding {len(embeddings)} chiều")
+    print(f"Các chiều đầu tiên: {embeddings[:5]}")
+else:
+    print(f"Lỗi: {result['error']}")
+
+
 ## Giấy phép
 
 Dự án này được phát hành theo Giấy phép MIT - xem file LICENSE để biết thêm chi tiết.
