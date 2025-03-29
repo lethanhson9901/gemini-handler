@@ -4,44 +4,53 @@ import re
 import google.generativeai as genai
 import yaml
 
-# Đọc API key từ file config.yaml
+# Read API key from config.yaml file
 config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'config.yaml')
 
 try:
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
-        api_key = "AIzaSyBAbbiFb2-PtPXZYnpHLK3RU-07D6xPo5Q"  # Sử dụng API key từ yêu cầu của bạn
+        
+    # Validate config structure and get API key
+    if config and 'gemini' in config and 'api_keys' in config['gemini'] and config['gemini']['api_keys']:
+        api_key = config['gemini']['api_keys'][0]  # Get the first key from the list
+    else:
+        raise ValueError("API key not found in config.yaml")
+        
+except FileNotFoundError:
+    raise FileNotFoundError(f"Config file not found at {config_path}")
+except yaml.YAMLError:
+    raise ValueError("config.yaml is not a valid YAML file")
 except Exception as e:
-    print(f"Lỗi khi đọc file config: {e}")
-    api_key = "AIzaSyBAbbiFb2-PtPXZYnpHLK3RU-07D6xPo5Q"  # Sử dụng API key từ yêu cầu của bạn
+    raise Exception(f"Error reading config file: {str(e)}")
 
-# Cấu hình API key
+# Configure API key
 genai.configure(api_key=api_key)
 
-# Liệt kê tất cả model có sẵn
+# List all available models
 try:
     models = genai.list_models()
     
-    # Lọc các model Gemini và định dạng lại output
+    # Filter Gemini models and format output
     formatted_models = []
     for model in models:
         if "gemini" in model.name.lower() or "imagen" in model.name.lower():
-            # Trích xuất tên model từ đường dẫn đầy đủ (models/gemini-xxx)
+            # Extract model name from full path (models/gemini-xxx)
             model_name = model.name.split('/')[-1]
             
-            # Bỏ qua các phiên bản cụ thể (như -001, -002) và -latest
+            # Skip specific versions (like -001, -002) and -latest
             if re.search(r'-(00\d|latest)$', model_name):
                 continue
                 
-            # Bỏ qua các model trùng lặp
+            # Skip duplicate models
             if model_name not in formatted_models:
                 formatted_models.append(model_name)
     
-    # Thêm imagen-3.0-generate-002 nếu cần
+    # Add imagen-3.0-generate-002 if needed
     if "imagen-3.0-generate-002" not in formatted_models:
         formatted_models.append("imagen-3.0-generate-002")
     
-    # Sắp xếp models theo ưu tiên (đặt các model cụ thể lên đầu)
+    # Sort models by priority (specific models first)
     priority_order = {
         "gemini-2.0-flash": 0,
         "gemini-2.5-pro-exp-03-25": 1,
@@ -56,10 +65,10 @@ try:
         "gemini-exp-1206": 10
     }
     
-    # Sắp xếp theo thứ tự ưu tiên
+    # Sort by priority order
     formatted_models.sort(key=lambda x: priority_order.get(x, 999))
     
-    # In ra định dạng mong muốn
+    # Print in desired format
     print("[")
     for i, model in enumerate(formatted_models):
         comma = "," if i < len(formatted_models) - 1 else ""
@@ -67,4 +76,4 @@ try:
     print("]")
     
 except Exception as e:
-    print(f"Lỗi khi lấy danh sách model: {e}")
+    print(f"Error retrieving model list: {e}")
