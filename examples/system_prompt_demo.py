@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from gemini_handler import GeminiHandler
 
 # Định nghĩa system prompt
@@ -17,11 +19,37 @@ handler = GeminiHandler(
     system_instruction=system_instruction
 )
 
-# Tạo nội dung
-response = handler.generate_content("Giải thích về trí tuệ nhân tạo cho người mới bắt đầu")
+# Đường dẫn đến file hình ảnh
+image_path = Path("1.png")
 
-# Kiểm tra và hiển thị kết quả
-if response['success']:
-    print(response['text'])
+# Kiểm tra xem file có tồn tại không
+if not image_path.exists():
+    print(f"Không tìm thấy file hình ảnh tại {image_path}")
 else:
-    print(f"Lỗi: {response['error']}")
+    # Upload file lên Gemini API
+    print("Đang tải hình ảnh lên...")
+    upload_result = handler.upload_file(image_path)
+    
+    if not upload_result['success']:
+        print(f"Lỗi khi tải hình ảnh: {upload_result['error']}")
+    else:
+        print(f"Đã tải hình ảnh thành công với ID: {upload_result['name']}")
+        
+        # Phân tích hình ảnh
+        print("Đang phân tích hình ảnh...")
+        analysis = handler.generate_content_with_file(
+            file=upload_result['file'],
+            prompt="Mô tả chi tiết những gì bạn thấy trong hình ảnh này."
+        )
+        
+        # Hiển thị kết quả phân tích
+        if analysis['success']:
+            print("\nKết quả phân tích:")
+            print(analysis['text'])
+        else:
+            print(f"Lỗi khi phân tích: {analysis['error']}")
+        
+        # Xóa file sau khi sử dụng
+        print("\nĐang xóa file...")
+        handler.delete_file(upload_result['name'])
+        print("Đã xóa file thành công.")
