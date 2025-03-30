@@ -273,7 +273,7 @@ if result['success']:
     print(f"Các chiều đầu tiên: {embeddings[:5]}")
 else:
     print(f"Lỗi: {result['error']}")
-
+```
 
 ## Giấy phép
 
