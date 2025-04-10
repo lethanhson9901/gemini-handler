@@ -19,7 +19,7 @@ pip install gemini-handler
 Hoặc cài đặt từ mã nguồn:
 
 ```bash
-git clone https://github.com/yourusername/gemini-handler.git
+git clone https://github.com/lethanhson9901/gemini-handler.git
 cd gemini-handler
 pip install -e .
 ```
