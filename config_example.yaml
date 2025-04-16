@@ -1,9 +1,9 @@
 gemini:
   # Required: API Keys
   api_keys:
-    - "your-api-key-1"
-    - "your-api-key-2"
-
+    - "AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk" #lethanhson99907
+    - "AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM" #lethanhson99908
+    
   # Optional: Generation Settings
   generation:
     temperature: 0.7
@@ -48,3 +48,7 @@ gemini:
         - "QUESTION_ANSWERING"
         - "FACT_VERIFICATION"
         - "CODE_RETRIEVAL_QUERY"
+  
+proxyproxy:
+  http: "http://proxy.example.com:8080"
+  https: "https://proxy.example.com:8080"

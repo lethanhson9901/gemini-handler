@@ -1,3 +1,4 @@
+# Modified gemini_handler.py
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -17,6 +18,7 @@ from .embedding import EmbeddingHandler
 from .file_handler import FileHandler
 from .file_operations import FileOperationsMixin
 from .key_rotation import KeyRotationManager
+from .proxy import ProxyManager
 from .strategies import (
     ContentStrategy,
     FallbackStrategy,
@@ -34,7 +36,8 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
         content_strategy: Strategy = Strategy.ROUND_ROBIN,
         key_strategy: KeyRotationStrategy = KeyRotationStrategy.ROUND_ROBIN,
         system_instruction: Optional[str] = None,
-        generation_config: Optional[GenerationConfig] = None
+        generation_config: Optional[GenerationConfig] = None,
+        proxy_settings: Optional[Dict[str, str]] = None
     ):
         """
         Initialize GeminiHandler with flexible configuration options.
@@ -46,10 +49,20 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
             key_strategy: Strategy for key rotation
             system_instruction: Optional system instruction
             generation_config: Optional generation configuration
+            proxy_settings: Optional dictionary with proxy settings
         """
         # Load API keys from provided list or config sources
         self.api_keys = api_keys or ConfigLoader.load_api_keys(config_path)
         
+        # Load proxy settings if not explicitly provided
+        self.proxy_settings = proxy_settings
+        if config_path and not proxy_settings:
+            self.proxy_settings = ConfigLoader.load_proxy_settings(config_path)
+            
+        # Configure proxy if settings are provided
+        if self.proxy_settings:
+            ProxyManager.configure_proxy(self.proxy_settings)
+            
         self.config = ModelConfig()
         self.key_manager = KeyRotationManager(
             api_keys=self.api_keys,
@@ -60,11 +73,22 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
         self.system_instruction = system_instruction
         self.generation_config = generation_config or GenerationConfig()
         self._strategy = self._create_strategy(content_strategy)
-        self.embedding_handler = EmbeddingHandler(self.key_manager)
+        self.embedding_handler = EmbeddingHandler(self.key_manager, proxy_settings=self.proxy_settings)
         
-        # Initialize file handler with a client
+        # Initialize file handler with a client, configured with proxy if needed
         api_key, _ = self.key_manager.get_next_key()
-        self.client = google_genai.Client(api_key=api_key)
+        
+        # Get client options if proxy is configured
+        client_options = None
+        if self.proxy_settings:
+            client_options = ProxyManager.get_client_options(self.proxy_settings)
+            
+        # Initialize client with proxy settings if available
+        if client_options:
+            self.client = google_genai.Client(api_key=api_key, client_options=client_options)
+        else:
+            self.client = google_genai.Client(api_key=api_key)
+            
         self.file_handler = FileHandler(self.client)
 
     def _create_strategy(self, strategy: Strategy) -> ContentStrategy:
@@ -83,7 +107,8 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
             config=self.config,
             key_manager=self.key_manager,
             system_instruction=self.system_instruction,
-            generation_config=self.generation_config
+            generation_config=self.generation_config,
+            proxy_settings=self.proxy_settings
         )
 
     def get_key_stats(self, key_index: Optional[int] = None) -> Dict[int, Dict[str, Any]]:

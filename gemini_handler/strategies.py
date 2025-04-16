@@ -1,11 +1,13 @@
+# Modified strategies.py
 import time
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Dict, Optional
 
 import google.generativeai as genai
 
 from .data_models import GenerationConfig, ModelConfig, ModelResponse
 from .key_rotation import KeyRotationManager
+from .proxy import ProxyManager
 from .response_handler import ResponseHandler
 
 
@@ -16,12 +18,14 @@ class ContentStrategy(ABC):
         config: ModelConfig,
         key_manager: KeyRotationManager,
         system_instruction: Optional[str] = None,
-        generation_config: Optional[GenerationConfig] = None
+        generation_config: Optional[GenerationConfig] = None,
+        proxy_settings: Optional[Dict[str, str]] = None
     ):
         self.config = config
         self.key_manager = key_manager
         self.system_instruction = system_instruction
         self.generation_config = generation_config or GenerationConfig()
+        self.proxy_settings = proxy_settings
 
     @abstractmethod
     def generate(self, prompt: str, model_name: str) -> ModelResponse:
@@ -32,6 +36,11 @@ class ContentStrategy(ABC):
         """Helper method for generating content with key rotation."""
         api_key, key_index = self.key_manager.get_next_key()
         try:
+            # Configure with API key
+            if self.proxy_settings:
+                # When proxy settings are provided, we need to configure them for this call
+                ProxyManager.configure_proxy(self.proxy_settings)
+                
             genai.configure(api_key=api_key)
             gen_config = self.generation_config.to_dict()
             

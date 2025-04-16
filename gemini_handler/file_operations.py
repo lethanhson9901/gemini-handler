@@ -375,6 +375,11 @@ class FileOperationsMixin:
             api_key, key_index = self.key_manager.get_next_key()
             
             # Configure with API key
+            # If proxy settings exist, make sure they're applied
+            if hasattr(self, 'proxy_settings') and self.proxy_settings:
+                from .proxy import ProxyManager
+                ProxyManager.configure_proxy(self.proxy_settings)
+                
             genai.configure(api_key=api_key)
             
             # Determine if structured output is needed

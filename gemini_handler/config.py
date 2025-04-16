@@ -1,6 +1,7 @@
+# Modified config.py
 import os
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import yaml
 
@@ -45,3 +46,41 @@ class ConfigLoader:
             "GEMINI_API_KEYS environment variable (comma-separated), "
             "or GEMINI_API_KEY environment variable."
         )
+    
+    @staticmethod
+    def load_proxy_settings(config_path: Optional[Union[str, Path]] = None) -> Dict[str, str]:
+        """
+        Load proxy settings from multiple sources in priority order:
+        1. YAML config file if provided
+        2. Environment variables (HTTP_PROXY, HTTPS_PROXY)
+        
+        Returns:
+            Dictionary with proxy settings (e.g., {'http': 'http://proxy:port', 'https': 'https://proxy:port'})
+        """
+        proxy_settings = {}
+        
+        # Try loading from YAML config
+        if config_path:
+            try:
+                with open(config_path, 'r') as f:
+                    config = yaml.safe_load(f)
+                    if config and 'proxy' in config:
+                        proxy_config = config['proxy']
+                        if isinstance(proxy_config, dict):
+                            if 'http' in proxy_config and proxy_config['http']:
+                                proxy_settings['http'] = proxy_config['http']
+                            if 'https' in proxy_config and proxy_config['https']:
+                                proxy_settings['https'] = proxy_config['https']
+            except Exception as e:
+                print(f"Warning: Failed to load proxy config from {config_path}: {e}")
+        
+        # Try loading from environment variables (environment takes precedence over config file)
+        http_proxy = os.getenv('HTTP_PROXY')
+        https_proxy = os.getenv('HTTPS_PROXY')
+        
+        if http_proxy:
+            proxy_settings['http'] = http_proxy
+        if https_proxy:
+            proxy_settings['https'] = https_proxy
+            
+        return proxy_settings
