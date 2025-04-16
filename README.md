@@ -1,6 +1,3 @@
-Okay, let's integrate the detailed information from the English README into your existing Vietnamese README, enriching it with more features and examples.
-
-```markdown
 # Gemini Handler 🚀
 
 [![Giấy phép: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) <!-- Cập nhật nếu giấy phép khác -->
@@ -731,4 +728,3 @@ Quy trình đóng góp đề xuất:
 7.  Commit các thay đổi (`git commit -m 'Them tinh nang X'`).
 8.  Push lên nhánh (`git push origin feature/ten-tinh-nang-cua-ban`).
 9.  Mở một Pull Request.
-```
