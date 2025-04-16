@@ -1,4 +1,5 @@
 # gemini_handler/__init__.py
+from .content_generation import ContentGenerationMixin
 from .data_models import (
     EmbeddingConfig,
     GenerationConfig,
@@ -8,6 +9,8 @@ from .data_models import (
     ModelResponse,
     Strategy,
 )
+from .file_handler import FileHandler
+from .file_operations import FileOperationsMixin
 from .gemini_handler import GeminiHandler
 
 __all__ = [
@@ -18,5 +21,8 @@ __all__ = [
     'Strategy',
     'KeyRotationStrategy',
     'KeyStats',
-    'ModelConfig'
+    'ModelConfig',
+    'FileHandler',
+    'ContentGenerationMixin',
+    'FileOperationsMixin'
 ]

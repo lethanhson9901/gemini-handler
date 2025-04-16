@@ -145,3 +145,11 @@ class KeyRotationManager:
             stats.failures += 1
             stats.rate_limited_until = time.time() + self.reset_window
             stats.uses = self.rate_limit
+
+    def mark_failure(self, key_index: int) -> None:
+        """Mark a generic failure for the API key."""
+        if 0 <= key_index < len(self.api_keys):
+            stats = self.key_stats[key_index]
+            stats.failures += 1
+            # Optionally add a short cooldown even for generic failures
+            # stats.rate_limited_until = time.time() + 5 # e.g., 5 second cooldown

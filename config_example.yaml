@@ -29,7 +29,7 @@ gemini:
     delay: 30  # seconds
 
   # Optional: Model Settings
-  default_model: "gemini-2.0-flash-exp"
+  default_model: "gemini-2.0-flash"
   system_instruction: null  # Custom system prompt
 
   # Embedding Settings
