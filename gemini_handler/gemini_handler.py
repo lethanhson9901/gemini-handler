@@ -29,6 +29,7 @@ from .strategies import (
 
 class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
     """Main handler class for Gemini API interactions."""
+    # Modified gemini_handler.py (relevant parts only)
     def __init__(
         self,
         api_keys: Optional[List[str]] = None,
@@ -75,21 +76,11 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
         self._strategy = self._create_strategy(content_strategy)
         self.embedding_handler = EmbeddingHandler(self.key_manager, proxy_settings=self.proxy_settings)
         
-        # Initialize file handler with a client, configured with proxy if needed
+        # Initialize file handler with a client
         api_key, _ = self.key_manager.get_next_key()
-        
-        # Get client options if proxy is configured
-        client_options = None
-        if self.proxy_settings:
-            client_options = ProxyManager.get_client_options(self.proxy_settings)
-            
-        # Initialize client with proxy settings if available
-        if client_options:
-            self.client = google_genai.Client(api_key=api_key, client_options=client_options)
-        else:
-            self.client = google_genai.Client(api_key=api_key)
-            
+        self.client = google_genai.Client(api_key=api_key)
         self.file_handler = FileHandler(self.client)
+
 
     def _create_strategy(self, strategy: Strategy) -> ContentStrategy:
         """Factory method to create appropriate strategy."""

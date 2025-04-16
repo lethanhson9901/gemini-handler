@@ -51,15 +51,12 @@ class EmbeddingHandler:
         api_key, key_index = self.key_manager.get_next_key()
         
         try:
-            # Configure client with the selected API key and proxy if needed
-            client_opts = None
+            # Configure client with the selected API key
+            # Proxy settings are handled via environment variables
             if self.proxy_settings:
-                client_opts = ProxyManager.get_client_options(self.proxy_settings)
+                ProxyManager.configure_proxy(self.proxy_settings)
                 
-            if client_opts:
-                client = genai.Client(api_key=api_key, client_options=client_opts)
-            else:
-                client = genai.Client(api_key=api_key)
+            client = genai.Client(api_key=api_key)
             
             # Prepare embedding configuration
             config = None
