@@ -54,16 +54,14 @@
 2.  **Cài đặt `gemini-handler`:**
     *   **Từ mã nguồn (khuyến nghị hiện tại):**
         ```bash
-        git clone https://github.com/your-username/gemini-handler.git # Thay bằng đường dẫn repo thực tế
+        git clone https://github.com/lethanhson9901/gemini-handler.git # Thay bằng đường dẫn repo thực tế
         cd gemini-handler
-        pip install .
+        pip install -e .
         ```
     *   **(Khi được xuất bản)**
         ```bash
         # pip install gemini-handler
         ```
-
-*(Lưu ý: Thay thế `your-username/gemini-handler` bằng đường dẫn kho lưu trữ thực tế của bạn)*
 
 ## 🔑 Cấu hình: API Keys và Proxy
 
