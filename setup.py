@@ -6,9 +6,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "google-generativeai>=0.3.0",
-        "google-genai>=0.1.0",
         "pyyaml>=6.0",
-        "numpy>=1.20.0",
+        "fastapi",
+        "uvicorn>=0.20.0",
+        "pydantic>=2.0.0",
     ],
     author="Your Name",
     author_email="your.email@example.com",
@@ -21,5 +22,10 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.12",
+    entry_points={
+        'console_scripts': [
+            'gemini-server=gemini_handler.cli:main',
+        ],
+    },
 )

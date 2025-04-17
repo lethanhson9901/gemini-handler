@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  gemini-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEYS=${GEMINI_API_KEYS:-}
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    restart: unless-stopped
