@@ -37,3 +37,19 @@ class ProxyManager:
             None since we're using environment variables instead
         """
         return None
+
+    @staticmethod
+    def format_proxy_url(host, port, username=None, password=None, protocol="http"):
+        """Format a proxy URL with optional authentication."""
+        auth_part = f"{username}:{password}@" if username and password else ""
+        return f"{protocol}://{auth_part}{host}:{port}"
+        
+    @staticmethod
+    def configure_proxy_with_auth(host, port, username=None, password=None):
+        """Configure proxy with separate authentication parameters."""
+        proxy_settings = {
+            'http': ProxyManager.format_proxy_url(host, port, username, password, "http"),
+            'https': ProxyManager.format_proxy_url(host, port, username, password, "https")
+        }
+        ProxyManager.configure_proxy(proxy_settings)
+        return proxy_settings
