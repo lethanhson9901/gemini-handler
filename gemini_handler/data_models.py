@@ -95,6 +95,8 @@ class ModelConfig:
             "gemini-1.5-flash-001-tuning",
             "gemini-1.5-flash-8b-exp-0827",
             "gemini-1.5-flash-8b-exp-0924",
+            "gemini-2.5-pro-preview-03-25",
+            "gemini-2.5-flash-preview-04-17",
             "gemini-2.0-flash-exp",
             "gemini-2.0-flash-exp-image-generation",
             "gemini-2.0-flash-lite-preview-02-05",
