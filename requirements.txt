@@ -9,3 +9,4 @@ pillow
 requests
 fastapi 
 uvicorn
+swiftshadow

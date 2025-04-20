@@ -128,7 +128,52 @@ class GeminiServer:
 
     def _register_routes(self):
         """Register API routes with FastAPI app."""
+        @self.app.on_event("startup")
+        async def startup_event():
+            """Start background tasks when the server starts."""
+            # Check if handler has auto proxy configured
+            if (hasattr(self.handler, 'proxy_settings') and 
+                self.handler.proxy_settings and 
+                isinstance(self.handler.proxy_settings, dict) and
+                'auto_proxy' in self.handler.proxy_settings and
+                self.handler.proxy_settings['auto_proxy'].get('auto_update', False)):
+                
+                try:
+                    from .auto_proxy import SWIFTSHADOW_AVAILABLE, AutoProxyManager
+                    
+                    if SWIFTSHADOW_AVAILABLE:
+                        # Start async background task for proxy updates
+                        import asyncio
+                        
+                        async def background_update():
+                            """Update proxies periodically."""
+                            update_interval = self.handler.proxy_settings['auto_proxy'].get('update_interval', 15)
+                            while True:
+                                print(f"Async updating proxies...")
+                                await AutoProxyManager.async_update()
+                                await asyncio.sleep(update_interval)
+                        
+                        # Start the task
+                        asyncio.create_task(background_update())
+                        print("Started background proxy updater task")
+                except ImportError:
+                    print("SwiftShadow not available, auto proxy updates disabled")
         
+        @self.app.middleware("http")
+        async def rotate_proxy_middleware(request: Request, call_next):
+            # Rotate proxy before processing request
+            if request.url.path.startswith("/v1/"):
+                try:
+                    from .proxy import ProxyManager
+                    ProxyManager.apply_next_proxy()
+                    print(f"Rotated proxy for request to {request.url.path}")
+                except Exception as e:
+                    print(f"Failed to rotate proxy: {e}")
+            
+            response = await call_next(request)
+            return response
+
+
         @self.app.get("/v1/models")
         async def list_models():
             """List available models in OpenAI format."""
@@ -217,7 +262,23 @@ class GeminiServer:
                 # Build OpenAI-style response
                 completion_id = f"chatcmpl-{uuid.uuid4().hex}"
                 
-                return {
+                # Extract proxy info if available
+                proxy_info = result.get("proxy_info")
+                safe_proxy_info = None
+                
+                if proxy_info:
+                    # Redact sensitive information
+                    safe_proxy_info = {k: v for k, v in proxy_info.items() if k not in ['credentials']}
+                    
+                    # Redact username/password from URLs if present
+                    for key in ['http', 'https']:
+                        if key in safe_proxy_info and safe_proxy_info[key] and '@' in safe_proxy_info[key]:
+                            parts = safe_proxy_info[key].split('@', 1)
+                            protocol = parts[0].split('://', 1)[0]
+                            safe_proxy_info[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                
+                # Create response with proxy info
+                response = {
                     "id": completion_id,
                     "object": "chat.completion",
                     "created": int(time.time()),
@@ -239,6 +300,12 @@ class GeminiServer:
                     }
                 }
                 
+                # Add proxy info to the response
+                if safe_proxy_info:
+                    response["proxy_info"] = safe_proxy_info
+                
+                return response
+                
             except Exception as e:
                 # Handle errors in OpenAI format
                 raise HTTPException(
@@ -252,7 +319,7 @@ class GeminiServer:
                         }
                     }
                 )
-        
+
         @self.app.post("/v1/embeddings")
         async def create_embeddings(request: EmbeddingRequest):
             """Create embeddings (OpenAI format)."""
@@ -314,6 +381,99 @@ class GeminiServer:
         async def health_check():
             """Health check endpoint."""
             return {"status": "ok", "timestamp": time.time()}
+
+        @self.app.get("/v1/proxy/info")
+        async def get_proxy_info():
+            """Get information about the current proxy configuration."""
+            try:
+                from .proxy import ProxyManager
+                current_proxy = ProxyManager.get_current_proxy()
+                
+                # Create a safe version for display (hide credentials)
+                safe_proxy = None
+                if current_proxy:
+                    safe_proxy = {k: v for k, v in current_proxy.items() if k != 'credentials'}
+                    
+                    # Redact username/password from URLs if present
+                    for key in ['http', 'https']:
+                        if key in safe_proxy and safe_proxy[key] and '@' in safe_proxy[key]:
+                            parts = safe_proxy[key].split('@', 1)
+                            protocol = parts[0].split('://', 1)[0]
+                            safe_proxy[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                
+                return {
+                    "current_proxy": safe_proxy,
+                    "status": "active" if safe_proxy else "none"
+                }
+            except Exception as e:
+                return {
+                    "error": str(e),
+                    "status": "error"
+                }
+
+        @self.app.get("/v1/proxy/stats")
+        async def get_proxy_stats():
+            """Get detailed proxy statistics."""
+            try:
+                from .proxy import ProxyManager
+                stats = ProxyManager.get_proxy_stats()
+                
+                # Redact sensitive information
+                if 'proxy_history' in stats:
+                    for proxy in stats['proxy_history']:
+                        if proxy:
+                            # Redact username/password from URLs if present
+                            for key in ['http', 'https']:
+                                if key in proxy and proxy[key] and '@' in proxy[key]:
+                                    parts = proxy[key].split('@', 1)
+                                    protocol = parts[0].split('://', 1)[0]
+                                    proxy[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                
+                if 'current_proxy' in stats and stats['current_proxy']:
+                    proxy = stats['current_proxy']
+                    for key in ['http', 'https']:
+                        if key in proxy and proxy[key] and '@' in proxy[key]:
+                            parts = proxy[key].split('@', 1)
+                            protocol = parts[0].split('://', 1)[0]
+                            proxy[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                
+                return stats
+            except Exception as e:
+                return {
+                    "error": str(e),
+                    "status": "error"
+                }
+
+        @self.app.post("/v1/proxy/rotate")
+        async def rotate_proxy():
+            """Manually rotate to the next proxy."""
+            try:
+                from .proxy import ProxyManager
+                success = ProxyManager.apply_next_proxy()
+                current = ProxyManager.get_current_proxy()
+                
+                # Redact sensitive information
+                safe_proxy = None
+                if current:
+                    safe_proxy = {k: v for k, v in current.items() if k != 'credentials'}
+                    
+                    # Redact username/password from URLs if present
+                    for key in ['http', 'https']:
+                        if key in safe_proxy and safe_proxy[key] and '@' in safe_proxy[key]:
+                            parts = safe_proxy[key].split('@', 1)
+                            protocol = parts[0].split('://', 1)[0]
+                            safe_proxy[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                
+                return {
+                    "success": success,
+                    "message": "Rotated to next proxy" if success else "Failed to rotate proxy",
+                    "current_proxy": safe_proxy
+                }
+            except Exception as e:
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
     
     def _convert_messages_to_prompt(self, messages: List[Dict[str, Any]]) -> str:
         """Convert OpenAI-format messages to a text prompt."""
@@ -338,3 +498,4 @@ class GeminiServer:
     def run(self):
         """Run the API server."""
         uvicorn.run(self.app, host=self.host, port=self.port)
+

@@ -72,7 +72,8 @@ class ModelResponse:
     api_key_index: int = 0
     structured_data: Optional[Dict[str, Any]] = None
     embeddings: Optional[Union[List[float], List[List[float]]]] = None
-    file_info: Optional[Dict[str, Any]] = None  # Added field for file information
+    file_info: Optional[Dict[str, Any]] = None
+    proxy_info: Optional[Dict[str, Any]] = None  # Add this field to track proxy used
 
 
 class ModelConfig:

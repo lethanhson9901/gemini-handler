@@ -38,6 +38,11 @@ def parse_args():
         default="config.yaml",
         help="Path to configuration file (default: config.yaml)"
     )
+    parser.add_argument(
+        "--auto-proxy",
+        action="store_true",
+        help="Enable auto proxy rotation (requires SwiftShadow)"
+    )
     
     return parser.parse_args()
 
@@ -124,10 +129,31 @@ def main():
         if 'system_instruction' in gemini_config:
             server_settings['system_instruction'] = gemini_config['system_instruction']
     
-    # Extract proxy settings if available
+    # Extract proxy settings
     proxy_settings = None
     if config and 'proxy' in config:
         proxy_settings = config['proxy']
+        
+        # Check if auto-proxy is explicitly enabled via CLI
+        if args.auto_proxy and 'auto_proxy' not in proxy_settings:
+            proxy_settings['auto_proxy'] = {
+                'auto_update': True,
+                'auto_rotate': True,
+                'update_interval': 15
+            }
+            print("✓ Auto proxy enabled via command line argument")
+        
+        # If auto_proxy is configured, check for SwiftShadow
+        if 'auto_proxy' in proxy_settings:
+            try:
+                import swiftshadow
+                print(f"✓ Auto proxy configuration: {proxy_settings['auto_proxy']}")
+            except ImportError:
+                print("! SwiftShadow not found. Install with: pip install swiftshadow")
+                print("! Auto proxy features will be disabled")
+                # Keep the regular proxy settings, just remove auto_proxy
+                if 'auto_proxy' in proxy_settings:
+                    del proxy_settings['auto_proxy']
     
     # Create and run server
     server = GeminiServer(
@@ -146,6 +172,31 @@ def main():
     print("  - POST /v1/chat/completions")
     print("  - POST /v1/embeddings")
     print("  - GET  /health")
+    
+    # Print proxy info
+    if proxy_settings:
+        if 'auto_proxy' in proxy_settings:
+            print("✓ Using auto proxy rotation with SwiftShadow")
+            print(f"  - Auto update: {proxy_settings['auto_proxy'].get('auto_update', False)}")
+            print(f"  - Auto rotate: {proxy_settings['auto_proxy'].get('auto_rotate', True)}")
+            print(f"  - Update interval: {proxy_settings['auto_proxy'].get('update_interval', 15)}s")
+        else:
+            print("✓ Using static proxy configuration")
+            if 'http' in proxy_settings:
+                # Redact credentials for display
+                http_proxy = proxy_settings['http']
+                if '@' in http_proxy:
+                    protocol, rest = http_proxy.split('://', 1)
+                    credentials, address = rest.split('@', 1)
+                    print(f"  - HTTP proxy: {protocol}://[REDACTED]@{address}")
+                else:
+                    print(f"  - HTTP proxy: {http_proxy}")
+    
+    # Add proxy endpoints info
+    print("✓ Proxy management endpoints:")
+    print("  - GET  /v1/proxy/info")
+    print("  - GET  /v1/proxy/stats")
+    print("  - POST /v1/proxy/rotate")
     
     # Run the server
     server.run()

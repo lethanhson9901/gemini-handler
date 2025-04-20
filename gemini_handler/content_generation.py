@@ -8,7 +8,8 @@ class ContentGenerationMixin:
         self,
         prompt: str,
         model_name: Optional[str] = None,
-        return_stats: bool = False
+        return_stats: bool = False,
+        include_proxy_info: bool = True  # New parameter
     ) -> Dict[str, Any]:
         """
         Generate content using the selected strategies.
@@ -17,6 +18,7 @@ class ContentGenerationMixin:
             prompt: The input prompt for content generation
             model_name: Optional specific model to use (default: None)
             return_stats: Whether to include key usage statistics (default: False)
+            include_proxy_info: Whether to include proxy information (default: True)
             
         Returns:
             Dictionary containing generation results and optionally key statistics
@@ -37,6 +39,11 @@ class ContentGenerationMixin:
                 }
                 for idx, stats in self.key_manager.key_stats.items()
             }
+        
+        # Add proxy information if available and requested
+        if include_proxy_info and not result.get("proxy_info"):
+            from .proxy import ProxyManager
+            result["proxy_info"] = ProxyManager.get_current_proxy()
             
         return result
 

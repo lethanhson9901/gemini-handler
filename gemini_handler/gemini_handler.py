@@ -171,3 +171,61 @@ class GeminiHandler(ContentGenerationMixin, FileOperationsMixin):
             }
             for idx, stats in self.key_manager.key_stats.items()
         }
+
+    def get_proxy_info(self) -> Dict[str, Any]:
+        """
+        Get information about the current proxy configuration.
+        
+        Returns:
+            Dictionary with proxy information
+        """
+        try:
+            from .proxy import ProxyManager
+            
+            current_proxy = ProxyManager.get_current_proxy()
+            proxy_history = ProxyManager.get_proxy_history()
+            stats = ProxyManager.get_proxy_stats()
+            
+            # Create safe versions (redact credentials)
+            def sanitize_proxy(proxy_data):
+                if not proxy_data:
+                    return None
+                    
+                safe_data = {k: v for k, v in proxy_data.items() if k not in ['credentials']}
+                
+                # Redact username/password from URLs
+                for key in ['http', 'https']:
+                    if key in safe_data and safe_data[key] and '@' in safe_data[key]:
+                        parts = safe_data[key].split('@', 1)
+                        protocol = parts[0].split('://', 1)[0]
+                        safe_data[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                        
+                return safe_data
+            
+            safe_current = sanitize_proxy(current_proxy)
+            safe_history = [sanitize_proxy(p) for p in proxy_history]
+            
+            # Remove sensitive info from stats
+            if 'current_proxy' in stats:
+                stats['current_proxy'] = sanitize_proxy(stats['current_proxy'])
+                
+            if 'proxy_history' in stats:
+                stats['proxy_history'] = [sanitize_proxy(p) for p in stats['proxy_history']]
+            
+            return {
+                "current_proxy": safe_current,
+                "proxy_history": safe_history,
+                "using_auto_proxy": (isinstance(self.proxy_settings, dict) and 
+                                    'auto_proxy' in self.proxy_settings),
+                "stats": stats
+            }
+        except ImportError:
+            return {
+                "error": "Proxy management not available",
+                "using_auto_proxy": False
+            }
+        except Exception as e:
+            return {
+                "error": str(e),
+                "using_auto_proxy": False
+            }

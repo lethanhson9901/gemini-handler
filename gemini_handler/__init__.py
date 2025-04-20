@@ -1,5 +1,6 @@
 # gemini_handler/__init__.py
 
+from .auto_proxy import AutoProxyManager
 from .content_generation import ContentGenerationMixin
 from .data_models import (
     EmbeddingConfig,
@@ -29,5 +30,6 @@ __all__ = [
     'ContentGenerationMixin',
     'FileOperationsMixin',
     'ProxyManager',
-    'LiteLLMGeminiAdapter'  # Add this export
+    'LiteLLMGeminiAdapter',
+    'AutoProxyManager'
 ]

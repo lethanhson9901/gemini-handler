@@ -52,3 +52,9 @@ gemini:
 proxy:
   http: "http://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335"
   https: "https://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335"
+
+  # Auto proxy settings (using SwiftShadow)
+  auto_proxy:
+    auto_update: true    # Automatically update proxy list
+    auto_rotate: true    # Rotate through proxies for each request
+    update_interval: 15  # Update interval in seconds

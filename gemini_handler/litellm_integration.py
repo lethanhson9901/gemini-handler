@@ -360,4 +360,19 @@ class LiteLLMGeminiAdapter:
             }
         }
         
+        # Add proxy information if available
+        if "proxy_info" in response_dict and response_dict["proxy_info"]:
+            # Redact sensitive information
+            proxy_info = response_dict["proxy_info"]
+            safe_proxy_info = {k: v for k, v in proxy_info.items() if k not in ['credentials']}
+            
+            # Redact username/password from URLs if present
+            for key in ['http', 'https']:
+                if key in safe_proxy_info and safe_proxy_info[key] and '@' in safe_proxy_info[key]:
+                    parts = safe_proxy_info[key].split('@', 1)
+                    protocol = parts[0].split('://', 1)[0]
+                    safe_proxy_info[key] = f"{protocol}://[REDACTED]@{parts[1]}"
+                    
+            completion_response["proxy_info"] = safe_proxy_info
+        
         return completion_response
