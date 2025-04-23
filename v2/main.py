@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import random
+import re
 import threading
 import time
 from pathlib import Path
@@ -11,12 +12,10 @@ from typing import Any, Dict, List, Optional
 
 import google.generativeai as genai
 import litellm
-import requests
 import tls_requests
 import uvicorn
 import yaml
 from fastapi import FastAPI, HTTPException
-from fastapi.background import BackgroundTasks
 from pydantic import BaseModel
 from swiftshadow.classes import ProxyInterface
 
@@ -61,7 +60,7 @@ class ImageGenerationRequest(BaseModel):
     prompt: str
     modalities: List[str] = ["image", "text"]
 
-# Browser profile manager (unchanged from original)
+# Browser profile manager
 class BrowserProfileManager:
     def __init__(self):
         self.profiles = [
@@ -81,7 +80,7 @@ class BrowserProfileManager:
 
 browser_manager = BrowserProfileManager()
 
-# Custom completion response class (unchanged from original)
+# Custom completion response class
 class CustomCompletion:
     class Message:
         def __init__(self, role, content, tool_calls=None):
@@ -132,7 +131,7 @@ async def update_proxies_periodically():
         logger.info("Updating proxy list...")
         await swift.async_update()
         logger.info(f"Updated proxy list, now have {len(swift.proxies)} proxies")
-        await asyncio.sleep(300)  # Update every minute
+        await asyncio.sleep(60)  # Update every minute
 
 # Initialize router and API keys
 def initialize_router():
@@ -154,7 +153,7 @@ def get_available_gemini_models(api_key: str) -> List[str]:
         return formatted_models
     except Exception as e:
         logger.warning(f"Error retrieving model list: {e}")
-        return ["gemini-2.0-flash"]
+        return ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash"]
 
 def auto_generate_model_list(config_path: str) -> tuple:
     if os.path.isabs(config_path):
@@ -204,6 +203,7 @@ def auto_generate_model_list(config_path: str) -> tuple:
     logger.info(f"Model list length: {len(model_list)}")
     return model_list, api_key_map, api_keys
 
+# Proxy completion function
 def proxy_completion(api_keys, **kwargs):
     proxy = swift.get()
     proxy_url = proxy.as_string() if proxy else None
@@ -242,36 +242,15 @@ def proxy_completion(api_keys, **kwargs):
     }
     
     messages = kwargs.pop("messages", [])
-    search_context = None
     
-    # Handle Google Search tool externally
+    # Skip googleSearch tool and rely on direct model response
     if "tools" in kwargs and any("googleSearch" in tool for tool in kwargs["tools"]):
-        logger.warning("googleSearchRetrieval is not natively supported; attempting external search or direct model response")
-        # Optional: Integrate Google Custom Search API (requires API key)
-        # Replace with your Google Search API key and CSE ID
-        google_search_api_key = "YOUR_GOOGLE_SEARCH_API_KEY"
-        google_cse_id = "YOUR_CUSTOM_SEARCH_ENGINE_ID"
-        if google_search_api_key and google_cse_id:
-            query = messages[-1]["content"] if messages else ""
-            try:
-                search_url = f"https://www.googleapis.com/customsearch/v1?key={google_search_api_key}&cx={google_cse_id}&q={query}"
-                search_response = requests.get(search_url, proxies=proxies)
-                search_response.raise_for_status()
-                search_results = search_response.json()
-                search_context = "\n".join(item["snippet"] for item in search_results.get("items", [])[:3])
-                logger.info(f"Retrieved search context: {search_context[:100]}...")
-            except Exception as e:
-                logger.error(f"Error fetching Google Search results: {e}")
-        # Remove googleSearch tool to avoid API error
+        logger.warning("googleSearchRetrieval is not supported; using direct model response")
         kwargs["tools"] = [tool for tool in kwargs.get("tools", []) if "googleSearch" not in tool]
     
     for msg in messages:
         role = msg["role"]
         content = msg["content"]
-        
-        # Add search context to user message if available
-        if search_context and role == "user" and msg is messages[-1]:
-            content = f"{content}\n\nSearch context: {search_context}"
         
         if isinstance(content, str):
             gemini_role = "user" if role in ["user", "system"] else "model"
@@ -339,7 +318,7 @@ def proxy_completion(api_keys, **kwargs):
     
     # Handle safety settings
     if "safety_settings" in kwargs:
-        sprite["safetySettings"] = kwargs["safety_settings"]
+        payload["safetySettings"] = kwargs["safety_settings"]
     
     # Handle tools and tool choice
     if "tools" in kwargs and kwargs["tools"]:
@@ -388,7 +367,7 @@ def proxy_completion(api_keys, **kwargs):
             json=payload,
             headers=headers,
             proxies=proxies,
-            timeout=60,
+            timeout=30,
             tls_identifier=browser_profile,
             http2=True
         )
@@ -476,7 +455,7 @@ async def shutdown_event():
 async def completion(request: CompletionRequest):
     response = proxy_completion(
         api_keys=app.state.api_keys,
-        **request.dict(exclude_unset=True)
+        **request.model_dump(exclude_unset=True)
     )
     return {
         "id": response.id,
@@ -503,9 +482,7 @@ async def completion(request: CompletionRequest):
 async def image_generation(request: ImageGenerationRequest):
     response = proxy_completion(
         api_keys=app.state.api_keys,
-        model=request.model,
-        messages=[{"role": "user", "content": request.prompt}],
-        modalities=request.modalities
+        **request.model_dump(exclude_unset=True)
     )
     image_data = response.choices[0].message.content
     return {"image_data": image_data}
@@ -515,4 +492,4 @@ async def health_check():
     return {"status": "healthy", "proxy_count": len(swift.proxies)}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
