@@ -1,0 +1,182 @@
+2025-04-23 13:29:01,604 - INFO - Initializing proxy list...
+2025-04-23 13:29:01,604 - INFO - Cache Expired
+2025-04-23 13:29:06,721 - INFO - Loaded 28 proxies
+2025-04-23 13:29:07,504 - INFO - Routing strategy: simple-shuffle
+2025-04-23 13:29:07,508 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:29:08,817 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:08,821 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:08,822 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:08,822 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:08,824 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:08,825 - INFO - litellm.completion(model=gemini/gemini-2.0-flash)[32m 200 OK[0m
+2025-04-23 13:29:09,830 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:29:13,971 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:13,972 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:13,972 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:13,972 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:13,973 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:14,973 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:29:17,682 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:17,683 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:17,683 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:17,683 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:17,684 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:29:18,685 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = gemini
+2025-04-23 13:29:20,452 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:20,453 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:20,453 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:29:20,453 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:29:20,454 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:29:21,455 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:29:25,164 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk "HTTP/1.1 200 OK"
+2025-04-23 13:29:25,166 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:25,167 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:25,167 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:25,168 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:26,168 - INFO - 
+LiteLLM completion() model= gemini-2.5-flash-preview-04-17; provider = gemini
+2025-04-23 13:29:42,627 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:42,637 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:42,638 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:29:42,638 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:29:42,640 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:29:43,640 - INFO - 
+LiteLLM completion() model= gemini-2.5-flash-preview-04-17; provider = gemini
+2025-04-23 13:29:47,795 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk "HTTP/1.1 200 OK"
+2025-04-23 13:29:47,795 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:47,796 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:29:47,796 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:29:48,796 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:29:58,954 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:29:58,955 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:29:58,955 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:58,956 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:29:59,956 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:30:01,715 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:30:01,717 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:30:01,717 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:30:01,719 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:30:01,720 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:30:02,305 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 429 Too Many Requests"
+2025-04-23 13:30:03,315 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = gemini
+2025-04-23 13:30:04,102 - INFO - HTTP Request: GET https://storage.googleapis.com/github-repo/img/gemini/intro/landmark3.jpg "HTTP/1.1 200 OK"
+2025-04-23 13:30:07,391 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:30:07,394 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:30:07,394 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:30:07,396 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:30:08,396 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:30:22,205 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk "HTTP/1.1 200 OK"
+2025-04-23 13:30:22,206 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:30:22,206 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:30:22,207 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:30:23,208 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash-exp-image-generation; provider = gemini
+2025-04-23 13:30:26,487 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:30:27,661 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:30:27,662 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation
+2025-04-23 13:30:27,662 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation
+2025-04-23 13:30:27,664 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation
+2025-04-23 13:30:58,949 - INFO - Initializing proxy list...
+2025-04-23 13:30:58,950 - INFO - Loaded proxies from cache.
+2025-04-23 13:30:58,950 - INFO - Loaded 28 proxies
+2025-04-23 13:30:59,721 - INFO - Routing strategy: simple-shuffle
+2025-04-23 13:30:59,725 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:31:00,937 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAVdmkCpQYqOF_z3De8FgMkHRLNGBH6Gyg "HTTP/1.1 200 OK"
+2025-04-23 13:31:00,939 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:00,939 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:00,939 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:00,939 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:00,940 - INFO - litellm.completion(model=gemini/gemini-2.0-flash)[32m 200 OK[0m
+2025-04-23 13:31:01,942 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:31:06,422 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyD-1vxjJieiaW-h-0UadN6b5WlMz4w5Mo0 "HTTP/1.1 200 OK"
+2025-04-23 13:31:06,425 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:06,425 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:06,425 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:06,427 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:07,428 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:31:10,122 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:31:10,123 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:10,123 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:10,124 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:11,124 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = gemini
+2025-04-23 13:31:12,058 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBIBMvBoiT3Apka409aqNB97WpJ1LTe4O8 "HTTP/1.1 200 OK"
+2025-04-23 13:31:12,067 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:12,068 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:12,068 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:12,070 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:13,070 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:31:15,563 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAM8VMtzRI8hwGJxQi1MJsaMbTE9TUgoSo "HTTP/1.1 200 OK"
+2025-04-23 13:31:15,565 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:15,566 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:15,568 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:16,568 - INFO - 
+LiteLLM completion() model= gemini-2.5-flash-preview-04-17; provider = gemini
+2025-04-23 13:31:33,069 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM "HTTP/1.1 200 OK"
+2025-04-23 13:31:33,072 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:33,073 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:33,073 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:33,075 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:34,075 - INFO - 
+LiteLLM completion() model= gemini-2.5-flash-preview-04-17; provider = gemini
+2025-04-23 13:31:39,409 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=AIzaSyBIBMvBoiT3Apka409aqNB97WpJ1LTe4O8 "HTTP/1.1 200 OK"
+2025-04-23 13:31:39,412 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:39,412 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:39,412 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:39,414 - INFO - selected model name for cost calculation: gemini/gemini-2.5-flash-preview-04-17
+2025-04-23 13:31:40,414 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash; provider = gemini
+2025-04-23 13:31:48,326 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAM8VMtzRI8hwGJxQi1MJsaMbTE9TUgoSo "HTTP/1.1 200 OK"
+2025-04-23 13:31:48,328 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:48,328 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:48,329 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:48,330 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash
+2025-04-23 13:31:49,331 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:31:51,337 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk "HTTP/1.1 200 OK"
+2025-04-23 13:31:51,338 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:51,338 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:51,338 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:51,339 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:31:51,339 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:53,232 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyCQ29b5uqw105bPve8a8V1_BdNBamdybeE "HTTP/1.1 200 OK"
+2025-04-23 13:31:53,234 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:53,235 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:53,235 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:53,237 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:31:54,237 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = gemini
+2025-04-23 13:31:54,616 - INFO - HTTP Request: GET https://storage.googleapis.com/github-repo/img/gemini/intro/landmark3.jpg "HTTP/1.1 200 OK"
+2025-04-23 13:31:58,147 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBIBMvBoiT3Apka409aqNB97WpJ1LTe4O8 "HTTP/1.1 200 OK"
+2025-04-23 13:31:58,148 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:31:58,148 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:58,148 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:58,149 - INFO - selected model name for cost calculation: gemini/gemini-1.5-flash
+2025-04-23 13:31:59,150 - INFO - 
+LiteLLM completion() model= gemini-1.5-pro; provider = gemini
+2025-04-23 13:32:15,458 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyBIBMvBoiT3Apka409aqNB97WpJ1LTe4O8 "HTTP/1.1 200 OK"
+2025-04-23 13:32:15,459 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:32:15,459 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:32:15,460 - INFO - selected model name for cost calculation: gemini/gemini-1.5-pro
+2025-04-23 13:32:16,460 - INFO - 
+LiteLLM completion() model= gemini-2.0-flash-exp-image-generation; provider = gemini
+2025-04-23 13:32:20,576 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=AIzaSyCQ29b5uqw105bPve8a8V1_BdNBamdybeE "HTTP/1.1 200 OK"
+2025-04-23 13:32:22,022 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-23 13:32:22,023 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation
+2025-04-23 13:32:22,023 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation
+2025-04-23 13:32:22,026 - INFO - selected model name for cost calculation: gemini/gemini-2.0-flash-exp-image-generation

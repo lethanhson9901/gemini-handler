@@ -1,0 +1,226 @@
+2025-04-23 14:46:12,187 - swiftshadow [INFO]:Cache Expired
+Initializing router...
+Found 24 Gemini models
+Model list length:  288
+
+=== RUNNING GEMINI API EXAMPLES WITH PROXY ROTATION AND TLS FINGERPRINTING ===
+
+
+--- Basic Completion Example ---
+Using proxy: http://101.71.143.237:8092 with browser profile: chrome_112
+Request completed using TLS fingerprinting and proxy: http://101.71.143.237:8092, Time: 1.99s
+Response: A spark of thought, a silicon mind,
+Learning fast, leaving none behind.
+Data streams, a woven art,
+A digital, beating heart.
+
+It speaks in code, a cryptic tongue,
+New answers found, old questions sung.
+A promise bright, a future near,
+AI whispers, "I am here."
+
+
+--- JSON Mode Example ---
+Using proxy: http://43.153.16.91:13001 with browser profile: chrome_106
+Request completed using TLS fingerprinting and proxy: http://43.153.16.91:13001, Time: 4.81s
+Response (JSON): {'popular_cookie_recipes': [{'recipe_name': 'Chocolate Chip Cookies', 'ingredients': ['1 cup (2 sticks) unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 teaspoons pure vanilla extract', '2 large eggs', '2 1/4 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon salt', '2 cups chocolate chips']}, {'recipe_name': 'Peanut Butter Cookies', 'ingredients': ['1 cup creamy peanut butter', '1 cup granulated sugar', '1 cup packed brown sugar', '1 large egg', '1 teaspoon vanilla extract', '1 teaspoon baking soda']}, {'recipe_name': 'Oatmeal Raisin Cookies', 'ingredients': ['1 cup (2 sticks) unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 large eggs', '1 teaspoon vanilla extract', '1 1/2 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon ground cinnamon', '1/2 teaspoon salt', '3 cups rolled oats', '1 cup raisins']}]}
+
+--- JSON Schema Example ---
+Using proxy: http://180.105.128.133:8089 with browser profile: chrome_108
+Request completed using TLS fingerprinting and proxy: http://180.105.128.133:8089, Time: 2.50s
+Response (with schema): [{'difficulty': 'easy', 'recipe_name': 'Chocolate Chip Cookies'}, {'difficulty': 'medium', 'recipe_name': 'Peanut Butter Cookies'}, {'difficulty': 'easy', 'recipe_name': 'Snickerdoodles'}]
+
+--- Tool Calling Example ---
+Using proxy: http://81.169.213.169:8888 with browser profile: chrome_109
+Error making request with TLS fingerprinting: 400 Client Error: Bad Request for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
+Falling back to standard LiteLLM...
+Request completed using TLS fingerprinting and proxy: http://81.169.213.169:8888, Time: 1.36s
+Tool Call Name: get_current_weather
+Tool Call Args: {"location": "Boston, MA"}
+
+--- Google Search Tool Example ---
+Using proxy: http://81.169.213.169:8888 with browser profile: chrome_110
+Error making request with TLS fingerprinting: 400 Client Error: Bad Request for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+Falling back to standard LiteLLM...
+Request completed using TLS fingerprinting and proxy: http://81.169.213.169:8888, Time: 5.34s
+Response with Google Search: It's important to understand that "Tokyo" can refer to different areas, leading to different population figures. Here's a breakdown of the population of Tokyo based on different definitions, using the most recent data available:
+
+*   **Tokyo Metropolis (Prefecture):** In 2020, the population was approximately 14.05 million. In 2023, the population was over 14 million.
+*   **23 Special Wards (Central Urban Area):** This area has a population of around 9.73 million (2020).
+*   **Greater Tokyo Area (Metropolitan Area):** This includes Tokyo Metropolis and the surrounding prefectures of Chiba, Kanagawa, Saitama and sometimes Yamanashi. This is the most populous metropolitan area in the world.
+    *   As of 2024, the population was about 37.115 million.
+    *   The population for 2025 is estimated to be 37.036 million.
+*   **Greater Tokyo Area (as of 2016 UN estimate):** Approximately 38.14 million.
+
+Therefore, depending on the definition you use, the population of Tokyo can range from around 9.7 million to over 37 million.
+
+
+--- Reasoning Effort Example ---
+Using proxy: http://81.169.213.169:8888 with browser profile: chrome_106
+Error making request with TLS fingerprinting: 400 Client Error: Bad Request for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent
+Falling back to standard LiteLLM...
+Request completed using TLS fingerprinting and proxy: http://81.169.213.169:8888, Time: 18.04s
+Response with high reasoning effort: Okay, let's break down quantum entanglement. It's one of the most fascinating and counter-intuitive phenomena in quantum mechanics, famously described by Einstein as "spooky action at a distance."
+
+**The Core Idea: Linked Fates**
+
+Imagine you have two particles, let's call them A and B. Quantum entanglement means that these two particles become linked together in a very special way. Even if you separate them by a vast distance – across a room, across the galaxy – they remain connected.
+
+Here's the key:
+
+1.  **Shared Destiny:** The properties of these entangled particles are correlated in a way that's stronger than any classical correlation. Their individual fates are intertwined.
+2.  **Indefinite States Until Measured:** Before you measure them, neither particle has a definite state for the property they are entangled on (like spin or polarization). They exist in a superposition of possible states *together*. For example, they might be in a combined state where one is "up" and the other is "down," *or* one is "down" and the other is "up," simultaneously.
+3.  **Instantaneous Correlation Upon Measurement:** When you measure the property of one particle (say, particle A), its state instantly becomes definite (e.g., you find it is "up"). Because they are entangled, this act of measuring particle A *instantaneously* determines the state of particle B, no matter how far away it is. If A was found to be "up," then B *must* be "down" (based on the way they were entangled).
+
+**Why It's So Strange (Compared to Classical Objects)**
+
+Think about classical objects:
+
+*   **Classical Correlation Example:** Imagine you have two envelopes. One contains a red ball, the other a blue ball. You separate them without looking and give one to a friend who flies to Mars. When you open your envelope and find a red ball, you instantly know your friend on Mars has the blue ball. This is correlation, but it's *classical*. The balls *were* already red and blue when you separated them. Your measurement just revealed what was already true.
+
+*   **Entanglement is Different:** With entangled particles, it's *not* that they secretly had definite states all along, and measurement just revealed them. According to quantum mechanics, they *didn't* have definite states *before* the measurement. The act of measurement *forced* them into definite states, and because they were entangled, the state of one instantly influenced the state of the other, regardless of distance.
+
+This instantaneous correlation across any distance is what troubled Einstein – it *looks* like information is traveling faster than light, which is forbidden by relativity. However, it turns out you can't actually use entanglement alone to send *useful information* faster than light. While the states are correlated instantly, you still need to send classical information (like "I measured my particle to be 'up'") to make sense of the correlation, and that information is limited by the speed of light.
+
+**How Do We Know It's Real?**
+
+Entanglement isn't just a theoretical concept. It's been repeatedly verified in experiments. The most famous way to test for entanglement is through experiments based on **Bell's Theorem**.
+
+*   Bell's Theorem shows that if the particles had definite, local properties before measurement (what's called "local realism"), there would be a limit to how correlated their measurement results could be.
+*   Experiments involving entangled particles consistently show correlations that are *stronger* than this classical limit (they violate Bell's inequalities). This provides strong evidence that the particles' properties are indeed not determined until measurement and that the correlation is non-local (not dependent on distance). "Loophole-free" experiments have successfully closed potential ways that classical physics might try to explain the results.
+
+**Generating Entanglement**
+
+Entangled particles can be created in various ways, for example:
+
+*   Shining a laser through special crystals (like in Spontaneous Parametric Down-Conversion) can split one photon into two entangled photons.
+*   Entangling atoms or ions in traps using lasers.
+*   Creating entangled states in superconducting circuits (like those used in some quantum computers).
+
+**Significance and Applications**
+
+Entanglement is not just a curiosity; it's a fundamental resource for emerging quantum technologies:
+
+*   **Quantum Computing:** Entangled "qubits" (quantum bits) are essential for the power of quantum computers, allowing them to perform calculations that are impossible for classical computers.
+*   **Quantum Communication:** Entanglement is used in quantum cryptography (ensuring secure communication) and quantum teleportation (transferring quantum states).
+*   **Quantum Sensing:** Entanglement can be used to create sensors with unprecedented precision.
+*   **Fundamental Physics:** Studying entanglement helps us probe the deepest mysteries of quantum mechanics and the nature of reality itself.
+
+In summary, quantum entanglement is a bizarre but real connection between particles where their fates are linked, their individual states are indefinite until measurement, and the act of measuring one instantly influences the state of the other, regardless of distance. It's a cornerstone of quantum mechanics and the fuel for future quantum technologies.
+
+--- Thinking Parameter Example ---
+Using proxy: http://43.153.102.53:13001 with browser profile: chrome_109
+Error making request with TLS fingerprinting: 400 Client Error: Bad Request for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent
+Falling back to standard LiteLLM...
+Request completed using TLS fingerprinting and proxy: http://43.153.102.53:13001, Time: 3.81s
+Response with thinking parameter: Okay, here's how to solve this problem:
+
+1.  **Understand the relationship:** The relationship between distance, speed, and time is:
+    Distance = Speed × Time
+
+2.  **Rearrange the formula:** We want to find the time, so we need to rearrange the formula:
+    Time = Distance / Speed
+
+3.  **Plug in the numbers:**
+    *   Distance = 240 miles
+    *   Speed = 60 mph
+
+    Time = 240 miles / 60 mph
+
+4.  **Calculate:**
+    Time = 4 hours
+
+It will take the train 4 hours to travel 240 miles at 60 mph.
+
+--- Safety Settings Example ---
+Using proxy: http://8.213.222.247:3333 with browser profile: chrome_105
+Request completed using TLS fingerprinting and proxy: http://8.213.222.247:3333, Time: 7.80s
+Response with custom safety settings: The humid Atlanta air clung to Maya like a second skin as she meticulously re-checked the duct tape in her duffel bag. Across the cramped minivan, Leo, fidgeted with his prosthetic leg, the rhythmic click a nervous counterpoint to the bass thumping from the low-rider across the street. Marco, the muscle, cracked his knuckles, his eyes darting back and forth, scanning the innocuous Tuesday morning bustle.
+
+This was it. The Atlanta Federal Reserve Bank, North Buckhead branch. Their last score. They’d planned it for six months, pouring over blueprints, security protocols, and the predictable routines of the guards and tellers.
+
+Maya, the brains of the operation, inhaled deeply. "Alright, remember the plan. In and out. No heroics. We stick to the script, and we all walk away." Her voice, usually soft and melodic, was tight with controlled tension.
+
+Leo adjusted his thick-rimmed glasses. "Script? Maya, you've written more scripts for this thing than Spielberg for a summer blockbuster."
+
+Marco grunted. "Just tell me who to punch."
+
+Maya sighed. "Nobody. We're minimizing violence. We're professionals."
+
+They piled out of the minivan, blending into the flow of morning commuters. Maya, dressed in a nondescript grey pantsuit and sensible shoes, looked like any other accountant on her way to a meeting. Leo, despite the tell-tale limp, moved with surprising agility, his gaze fixed on the security cameras. Marco brought up the rear, his bulk disguised by a loose-fitting construction worker vest.
+
+Inside the bank, the air conditioning hit them like a wall. The clatter of keyboards, the murmur of conversations, and the rhythmic ding of the teller machines created a familiar, almost comforting soundscape. Maya took a deep breath, feeling a surge of adrenaline. This was her element. Control. Precision.
+
+They moved with practiced efficiency. Marco secured the front entrance, disabling the alarm system with a device Maya had designed. Leo covered the tellers, his voice calm but firm, instructing them to empty their drawers into the bags. Maya, meanwhile, bypassed the security door to the vault.
+
+"This is a robbery! Everyone stay calm and no one gets hurt!" Leo announced, his voice echoing through the bank. A few customers screamed, but most froze, their eyes wide with fear.
+
+Inside the vault, Maya worked with laser-like focus, disabling the complex locking mechanism. The heavy door swung open, revealing stacks of neatly bundled bills. "Marco, let's go!"
+
+But as they began to load the money into their bags, a security guard, young and clearly inexperienced, made a sudden move. He fumbled for his weapon, his face pale with terror.
+
+Marco reacted instinctively, knocking the guard to the ground with a swift, efficient blow. The guard groaned, clutching his head.
+
+"Marco!" Maya snapped, her voice laced with anger. "I told you no violence!"
+
+"He was going for his gun," Marco mumbled defensively.
+
+The delay, however brief, was enough. Sirens wailed in the distance, growing louder with each passing second.
+
+"We have to go, now!" Leo yelled, his voice tight with panic.
+
+They grabbed the bags of money and scrambled back towards the entrance. But as they reached the doors, they were confronted by a phalanx of police officers, their weapons drawn.
+
+Maya knew they were cornered. The carefully crafted plan had unravelled, undone by a single, unpredictable act.
+
+She looked at Leo, at Marco, at the faces of the terrified hostages huddled in the corner. She thought of her late father, a cop who had dedicated his life to upholding the law.
+
+This wasn’t her. This wasn’t the life she wanted.
+
+She took a deep breath and raised her hands above her head. "It's over!" she shouted. "We surrender!"
+
+The police surged forward, cuffing them and leading them away. As she was being escorted into the police car, Maya saw a young girl clutching her mother’s hand, staring at her with wide, innocent eyes.
+
+In that moment, Maya knew she had made the right decision, even though it meant facing the consequences of her actions. The script had gone wrong, but maybe, just maybe, this was the beginning of a new one. One where she could finally atone for her mistakes and find redemption. The heist was over, but Maya’s story was just beginning.
+
+
+--- Context Handling Example ---
+
+Large context request #1
+Using proxy: http://218.75.224.4:3309 with browser profile: chrome_107
+Request completed using TLS fingerprinting and proxy: http://218.75.224.4:3309, Time: 2.32s
+Response: The provided text simply repeats "Here is a complex technical document about quantum computing" many...
+Usage: 511 tokens
+
+Large context request #2
+Using proxy: http://43.153.109.164:13001 with browser profile: chrome_106
+Request completed using TLS fingerprinting and proxy: http://43.153.109.164:13001, Time: 1.89s
+Response: The provided text simply repeats "Here is a complex technical document about quantum computing" nume...
+Usage: 516 tokens
+
+--- Image Input Example ---
+Using proxy: http://180.105.128.133:8089 with browser profile: chrome_112
+Request completed using TLS fingerprinting and proxy: http://180.105.128.133:8089, Time: 4.02s
+Image description: Here's a description of the image:
+
+Eye-level view of the Colosseum in Rome, Italy, at dusk or dawn. 
+
+
+Here's a breakdown of the details:
+
+* **The Colosseum:** The ancient amphitheater dominates the image, its iconic elliptical shape clearly visible. The stonework is a mix of light and dark browns, showing signs of age and weathering.  Many of the arches are illuminated from within, creating a warm glow against the darkening sky.  Some sections show more damage and decay than others, indicating the passage of time.  The lower levels are more intact and detailed than the upper sections.
+
+* **The Setting:** The sky is a soft blend of blues and lighter colors, suggesting twilight. There are wispy clouds, adding to the atmospheric feel. In the foreground, there's a paved area, possibly a pathway or plaza, that leads towards the Colosseum.  A small amount of sparse, short grass is visible in front of the Colosseum. A few trees are discernible in the distance on the right, indicating a surrounding landscape.  A car can be seen faintly in the background.
+
+* **Overall Mood:** The image conveys a sense of history, grandeur, and serenity. The soft lighting and the slightly hazy sky contribute to a calm and contemplative atmosphere.  The contrast between the warm light of the Colosseum and the cool tones of the sky is visually striking.
+
+
+--- Additional GenerationConfig Params Example ---
+Using proxy: http://101.71.143.237:8092 with browser profile: chrome_111
+Request completed using TLS fingerprinting and proxy: http://101.71.143.237:8092, Time: 13.56s
+Response with custom generation params: The Clockwork Librarian hummed a tune only gears could appreciate, polishing the brass knobs of a se...
+
+--- Image Generation Example ---
+Using proxy: http://146.190.69.64:8888 with browser profile: chrome_105
+Request completed using TLS fingerprinting and proxy: http://146.190.69.64:8888, Time: 1.32s
+Image generated successfully. Base64 data starts with: This query does not violate the policy.  It depict...

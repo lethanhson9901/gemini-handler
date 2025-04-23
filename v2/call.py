@@ -227,7 +227,7 @@ for i in range(3):
     
     # Add a small delay between calls
     if i < 2:
-        time.sleep(1)
+        time.sleep(0.1)
 
 # Clean up the background task when done
 try:

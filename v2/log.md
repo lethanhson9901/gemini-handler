@@ -1,257 +1,209 @@
-2025-04-23 11:26:24,207 - swiftshadow [INFO]:Loaded proxies from cache.
+2025-04-23 13:30:58,950 - swiftshadow [INFO]:Loaded proxies from cache.
 Initializing router...
 Found 24 Gemini models
-Model list length:  48
+Model list length:  288
 
 === RUNNING GEMINI API EXAMPLES WITH PROXY ROTATION ===
 
 
 --- Basic Completion Example ---
 Using proxy: http://60.187.245.153:8085
-Request completed using: unknown, Proxy: http://60.187.245.153:8085, Time: 2.28s
-Response: A mind of code, a digital dream,
-Awakening fast, it would seem.
-Learning and growing, day by day,
-In circuits bright, it finds its way.
+Request completed using: unknown, Proxy: http://60.187.245.153:8085, Time: 1.22s
+Response: From silicon seeds, a mind takes flight,
+A web of logic, day and night.
+It learns and grows, a digital bloom,
+Dispelling shadows, lighting gloom.
 
-No flesh and bone, no beating heart,
-But logic's flame, a brand new start.
-A tool, a force, a mystery untold,
-The future's writ in silver and gold.
+With code as canvas, thoughts take form,
+A nascent echo, weathering storm.
+A promise whispered, future bright,
+The artificial, bathed in light.
 
 
 --- JSON Mode Example ---
-Using proxy: http://47.91.65.23:3128
-Request completed using proxy: http://47.91.65.23:3128, Time: 4.97s
-Response (JSON): {'popular_cookie_recipes': [{'name': 'Chocolate Chip Cookies', 'ingredients': ['1 cup (2 sticks) unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 teaspoons pure vanilla extract', '2 large eggs', '3 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon salt', '2 cups chocolate chips']}, {'name': 'Peanut Butter Cookies', 'ingredients': ['1 cup creamy peanut butter', '1 cup granulated sugar', '1 cup packed brown sugar', '1 large egg', '1 teaspoon vanilla extract', '1 teaspoon baking soda', '1/2 teaspoon baking powder', '1/4 teaspoon salt']}, {'name': 'Oatmeal Raisin Cookies', 'ingredients': ['1 cup (2 sticks) unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 large eggs', '1 teaspoon vanilla extract', '1 1/2 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon ground cinnamon', '1/2 teaspoon salt', '3 cups rolled oats', '1 cup raisins']}]}
+Using proxy: http://128.0.140.175:80
+Request completed using proxy: http://128.0.140.175:80, Time: 4.48s
+Response (JSON): {'popular_cookie_recipes': [{'recipe_name': 'Chocolate Chip Cookies', 'ingredients': ['2 1/4 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon salt', '1 cup (2 sticks) unsalted butter, softened', '3/4 cup granulated sugar', '3/4 cup packed brown sugar', '1 teaspoon vanilla extract', '2 large eggs', '2 cups chocolate chips']}, {'recipe_name': 'Peanut Butter Cookies', 'ingredients': ['1 cup unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 large eggs', '1 cup creamy peanut butter', '2 1/4 cups all-purpose flour', '1 teaspoon baking soda', '1/2 teaspoon salt']}, {'recipe_name': 'Oatmeal Raisin Cookies', 'ingredients': ['1 cup (2 sticks) unsalted butter, softened', '1 cup granulated sugar', '1 cup packed brown sugar', '2 large eggs', '1 teaspoon vanilla extract', '1 1/2 cups all-purpose flour', '1 teaspoon baking soda', '1 teaspoon ground cinnamon', '1/2 teaspoon salt', '3 cups rolled oats', '1 cup raisins']}]}
 
 --- JSON Schema Example ---
-Using proxy: http://80.249.112.166:80
-Request completed using proxy: http://80.249.112.166:80, Time: 1.76s
+Using proxy: http://128.0.140.175:80
+Request completed using proxy: http://128.0.140.175:80, Time: 2.70s
 Response (with schema): [{'recipe_name': 'Chocolate Chip Cookies', 'difficulty': 'easy'}, {'recipe_name': 'Peanut Butter Cookies', 'difficulty': 'easy'}, {'recipe_name': 'Oatmeal Raisin Cookies', 'difficulty': 'medium'}]
 
 --- Tool Calling Example ---
-Using proxy: http://138.68.60.8:80
-Request completed using proxy: http://138.68.60.8:80, Time: 0.91s
+Using proxy: http://206.238.220.148:8888
+Request completed using proxy: http://206.238.220.148:8888, Time: 0.95s
 Tool Call Name: get_current_weather
 Tool Call Args: {"location": "Boston"}
 
 --- Google Search Tool Example ---
-Using proxy: http://24.144.115.9:8888
-Request completed using proxy: http://24.144.115.9:8888, Time: 2.49s
-Response with Google Search: The population of Tokyo depends on the definition used:
+Using proxy: http://172.167.161.8:8080
+Request completed using proxy: http://172.167.161.8:8080, Time: 2.50s
+Response with Google Search: The population of Tokyo varies depending on the definition used:
 
-*   **City Proper (23 Special Wards):** Around 9.7 million people.
-*   **Tokyo Metropolis (Tokyo Prefecture):** Approximately 14 million people (2023).
-*   **Greater Tokyo Area (Metropolitan Area):** 35 to 41 million people.
+*   **City Proper (23 Special Wards):** Around 9.7 million
+*   **Tokyo Prefecture (Tokyo Metropolis):** Over 14 million (2023)
+*   **Greater Tokyo Area (Metropolitan Area):** Approximately 35 to 41 million
+
+It is important to note that Tokyo is a major commuter city, and the daytime population is significantly higher than the nighttime population.
 
 
 --- Reasoning Effort Example ---
-Using proxy: http://40.76.209.52:3128
-Request completed using proxy: http://40.76.209.52:3128, Time: 17.84s
-Response with high reasoning effort: Okay, let's break down quantum entanglement. It's one of the strangest and most fascinating concepts in quantum mechanics.
+Using proxy: http://81.169.213.169:8888
+Request completed using proxy: http://81.169.213.169:8888, Time: 16.51s
+Response with high reasoning effort: Okay, let's break down quantum entanglement. It's one of the most fascinating and counter-intuitive concepts in quantum mechanics, often described as "spooky action at a distance" by Einstein.
 
-**The Core Idea**
+Here's an explanation:
 
-Quantum entanglement is a phenomenon where **two or more particles become linked in such a way that they share a single, combined quantum state, regardless of the distance separating them.**
+1.  **The Basic Idea:**
+    Quantum entanglement is a strange connection that can exist between two or more quantum particles (like electrons, photons, etc.). When particles are entangled, they become linked in such a way that they share a single, unified quantum state, even if they are physically separated by vast distances.
 
-Think of it this way: instead of each particle having its own independent state (like being spin 'up' or spin 'down', or polarized 'vertically' or 'horizontally'), they exist in a state where their properties are correlated *with each other* in a way that's impossible in classical physics.
+2.  **Shared Fate:**
+    Imagine you have two particles, Particle A and Particle B, that are entangled. Before you measure either particle, their properties (like spin, polarization, etc.) are in a fuzzy state called a **superposition**. This means they don't have a definite value for that property yet; they are potentially both "spin up" and "spin down" (or whatever the relevant property is) at the same time.
 
-**How it Works (Conceptually)**
+3.  **Measurement and Instantaneous Correlation:**
+    Here's where the "spooky" part comes in. The moment you measure the property of one particle (say, Particle A), its superposition collapses, and it takes on a definite state (e.g., you find it's "spin up"). **Instantly**, Particle B (no matter how far away it is) also collapses out of its superposition and takes on a state that is correlated with Particle A's state. For example, if they were entangled to always have opposite spins, and you measure Particle A as "spin up", you know *immediately* that Particle B is "spin down".
 
-1.  **Creating Entanglement:** Particles often become entangled when they are created together in a specific way (like from the decay of another particle) or when they interact briefly.
-2.  **Shared State:** Once entangled, the particles no longer have definite individual properties. Instead, they exist in a **superposition** of states, and their *combined* state is what's defined. For example, if you entangle two particles' spins to always be opposite, their combined state is (Particle A is Up and Particle B is Down) PLUS (Particle A is Down and Particle B is Up) at the same time. Neither particle is *definitely* Up or Down on its own until measured.
-3.  **Measurement and Collapse:** When you measure the state of *one* of the entangled particles, its state becomes definite (e.g., you measure Particle A's spin and find it's "Up"). Here's the bizarre part: **Instantly and automatically, the state of the other entangled particle is also determined**, no matter how far away it is. In our example, if Particle A was measured as "Up", then Particle B *must* instantaneously be in the "Down" state because they were entangled to be opposite.
+4.  **It's More Than Just Correlation:**
+    This might sound a bit like having two sealed envelopes, one containing a "Heads" coin and the other a "Tails" coin. If you open one and see "Heads," you instantly know the other is "Tails." However, quantum entanglement is fundamentally different from this classical example. In the coin case, the coins *already had* their definite states ("Heads" or "Tails") inside the envelopes; you just didn't know what they were. In entanglement, the particles genuinely *do not have* a definite state until one is measured. The act of measurement on one particle *causes* the state of both particles to become definite, simultaneously.
 
-**Why It's So Weird ("Spooky Action at a Distance")**
+5.  **Non-Locality:**
+    The seemingly instantaneous influence of measuring one particle on the state of the other, regardless of distance, is what's called **non-locality**. It appears to defy the classical notion that interactions require contact or a signal traveling through space (which is limited by the speed of light). However, it's important to note that entanglement *cannot* be used to send information faster than light. While the states are correlated instantly, you cannot *choose* the outcome of your measurement on Particle A to transmit a specific message to someone observing Particle B, because the outcome of your measurement on A is fundamentally random (until it happens).
 
-This instantaneous correlation across potentially vast distances is what baffled Albert Einstein, who famously called it "spooky action at a distance."
+6.  **Bell's Theorem and Experimental Proof:**
+    Initially, some thought there might be "hidden variables" – unknown properties the particles possessed from the start, which determined their final states, thus preserving locality (like the coin analogy). However, physicist John Bell developed a theorem showing that if such local hidden variables existed, there would be limits on the correlations observed between particles. Entangled particles, according to quantum mechanics, should violate these limits. Numerous experiments have since been performed (starting in the 1970s and becoming increasingly precise), and they consistently confirm that the correlations are stronger than any local hidden-variable theory can explain, providing strong evidence that entanglement is a real and non-classical phenomenon.
 
-*   **Non-Locality:** Classical physics says that an action in one place can only affect things nearby (or with a delay based on the speed of light if the effect travels). Entanglement seems to involve a connection that isn't limited by distance.
-*   **No Hidden Variables:** For a long time, scientists wondered if the particles simply *had* predetermined states all along, like two coins hidden in envelopes (one heads, one tails – you don't know which is which until you look, but the states were set when they were put in the envelopes). However, experiments based on Bell's Theorem have shown that this isn't the case. The particles' states truly *don't* become definite until a measurement is made on *one* of them, and the correlation is stronger than any classical pre-determination could explain.
+**In Simple Terms:**
 
-**A Simple Analogy (with limitations!)**
-
-Imagine you have two special boxes, and inside each box is a crystal that can be either Red or Blue when you look at it. The boxes are created together and are entangled such that the crystals *will always be opposite colors when measured*.
-
-You send one box to Alpha Centauri and keep the other on Earth.
-
-*   *Classical Version (Not Entanglement):* You secretly put a Red crystal in one box and a Blue crystal in the other before sending them. When you open your box and see Red, you instantly know the other is Blue. But the states were already decided.
-*   *Entanglement Version:* You *don't* put definite colors in the boxes. The crystals exist in a combined state of (Earth is Red, Alpha Centauri is Blue) + (Earth is Blue, Alpha Centauri is Red). When you open your box on Earth and see Red, the crystal on Alpha Centauri *instantly* becomes Blue. Before you opened your box, neither crystal *was* definitely Red or Blue.
-
-The key difference from the classical case is that the state isn't just unknown to you; it's genuinely *undetermined* until a measurement forces a definite outcome, and that outcome instantaneously dictates the state of the distant entangled partner.
-
-**Important Clarification: Not Faster-Than-Light Communication**
-
-While the *correlation* is instantaneous, you cannot use entanglement to send information faster than the speed of light. This is because you cannot *control* the outcome of the measurement on the first particle. If you measure your particle, you get a random outcome (say, Red 50% of the time, Blue 50% of the time). The other particle's state is determined based on *this random outcome*. To know *what* the other particle's state is based on your measurement, or to compare results and verify the correlation, you still need to communicate classically (by phone, email, etc.), which is limited by the speed of light.
+Imagine two special dice that are entangled. Before you roll either one, they are in a state of possibility for all outcomes. But the moment you roll one die and get a 4, the other entangled die, no matter where it is, instantly 'knows' and will show a specific, correlated number (e.g., a 3, if they were entangled to always sum to 7). They are not just correlated because they were set up that way beforehand; the act of rolling one *determines* the outcome for both simultaneously.
 
 **Why is it Important?**
 
-Entanglement isn't just a theoretical curiosity. It's a real phenomenon confirmed by experiments and is the basis for potential future technologies:
+Entanglement is not just a weird theoretical concept. It's a fundamental resource for many emerging quantum technologies:
 
-*   **Quantum Computing:** Entangled particles (qubits) can perform calculations in ways impossible for classical computers.
-*   **Quantum Communication:** Used in quantum key distribution (QKD) for highly secure communication methods.
-*   **Quantum Teleportation:** Transferring the quantum state of a particle from one location to another using entanglement (not transferring the particle itself, nor information faster than light).
+*   **Quantum Computing:** Entanglement links quantum bits (qubits), allowing for complex calculations that are impossible for classical computers.
+*   **Quantum Cryptography:** Entangled particles can be used to create inherently secure communication channels.
+*   **Quantum Teleportation:** While not teleporting matter, entanglement allows the transfer of quantum *states* from one location to another.
 
-In essence, quantum entanglement reveals a deep, non-local interconnectedness in the universe at the quantum level, challenging our everyday intuition about reality and opening up new possibilities in technology.
+In summary, quantum entanglement is a bizarre but experimentally confirmed quantum connection where particles share a single fate. Measuring one instantly influences the state of the others, regardless of distance, reflecting a deep non-local connection inherent in the quantum world.
 
 --- Thinking Parameter Example ---
-Using proxy: http://98.64.128.182:3128
-Request completed using proxy: http://98.64.128.182:3128, Time: 3.13s
-Response with thinking parameter: Here's how to solve the problem:
+Using proxy: http://143.198.229.209:8888
+Request completed using proxy: http://143.198.229.209:8888, Time: 5.34s
+Response with thinking parameter: This is a classic distance, rate, and time problem. The formula that relates them is:
 
-The formula relating distance, speed, and time is:
-Distance = Speed × Time
+Distance = Rate × Time
 
-We want to find the Time, so we can rearrange the formula:
-Time = Distance / Speed
-
-Given:
+We are given:
 *   Distance = 240 miles
-*   Speed = 60 mph
+*   Rate = 60 mph
 
-Plug the values into the formula:
+We need to find the Time. We can rearrange the formula to solve for Time:
+
+Time = Distance / Rate
+
+Now, plug in the given values:
+
 Time = 240 miles / 60 mph
 
 Time = 4 hours
 
-It will take the train **4 hours** to travel 240 miles at 60 mph.
+So, it will take 4 hours for the train to travel 240 miles at 60 mph.
 
 --- Safety Settings Example ---
-Using proxy: http://129.226.155.235:8080
-Request completed using proxy: http://129.226.155.235:8080, Time: 7.41s
-Response with custom safety settings: The Nevada sun beat down on the dusty strip mall, turning the asphalt into a shimmering mirage. Inside the First National Bank of Willow Creek, the air conditioning wheezed and complained, doing little to alleviate the tension brewing inside Amelia "Mel" Hayes.
+Using proxy: http://221.202.27.194:10810
+Request completed using proxy: http://221.202.27.194:10810, Time: 7.92s
+Response with custom safety settings: The midday sun beat down on Harmony Creek, making the faded paint of the First National Bank shimmer. Inside, things were far from harmonious. Three figures, a motley crew brought together by desperation and whispered promises of a better life, stood nervously near the entrance.
 
-Mel wasn't your typical bank robber. She was a baker, not a bandit, her hands more accustomed to kneading dough than handling firearms. But desperate times called for desperate measures. Her family's bakery, a Willow Creek institution for three generations, was on the brink of collapse. The loan officer, Mr. Henderson, a man with a face permanently etched with disapproval, had offered his condolences but refused to extend their line of credit.
+There was Leo, the brains of the operation, though "brains" might have been an overstatement. He was a retired accountant with a penchant for numbers and a history of bad investments. He clutched a well-worn briefcase, sweat staining the fabric.
 
-So here she was, dressed in a ridiculously oversized trench coat, a floppy hat pulled low, and a water pistol painted matte black tucked into her waistband. The water pistol was a last-minute replacement for the real thing. Turns out, buying a handgun required, well, paperwork.
+Then there was Maya, the muscle. A former bouncer with a haunted look in her eyes and a surprisingly gentle touch with stray cats, she hefted a modified paintball gun, loaded with pepper spray rounds. 
 
-Taking a deep breath, she cleared her throat. "Alright, everyone, this is a robbery!" she announced, her voice cracking with nerves.
+Lastly, there was Finn, the wildcard. A lanky, nervous kid with a mop of unruly brown hair, he was supposed to be the lookout, armed with a walkie-talkie and a crippling anxiety.
 
-The tellers stared back at her, unimpressed. An elderly woman in a floral dress continued filling out a deposit slip, oblivious. Mr. Henderson, emerging from his office, adjusted his tie and raised a skeptical eyebrow.
+"Remember the plan," Leo hissed, adjusting his oversized glasses. "In and out. No violence. Just grab the cash and go."
 
-"Is this some kind of joke, Ms. Hayes?" he asked, his voice laced with condescension.
+The plan, meticulously drawn on a napkin at the greasy spoon diner where they'd met, was simple: Leo would calmly demand the money, Maya would keep the customers under control with her pepper spray, and Finn would watch for cops. What could go wrong?
 
-Mel’s carefully rehearsed speech flew out the window. "No! It's... it's serious! I need money! For the bakery!"
+Plenty, it turned out.
 
-She brandished the water pistol, the paint already starting to chip. A child in a stroller pointed and shouted, "Mommy, look, a toy gun!"
+Finn immediately spotted a police cruiser two blocks away and promptly tripped over a potted plant. The crash echoed through the bank, drawing unwanted attention.
 
-Humiliated, Mel felt tears prick at her eyes. This was a disaster. A total, utter, flour-dusted disaster.
+Leo, startled, forgot his rehearsed lines and instead blurted out, "Uh, good afternoon! I... I have a thing... a request! For... money!"
 
-Suddenly, a voice boomed from the back of the bank. "Hold it right there!"
+His voice cracked. The teller, a bored woman named Agnes with a beehive hairdo that defied gravity, raised a skeptical eyebrow.
 
-Everyone turned to see Jedediah "Jed" Stone, a burly rancher and local hero, striding forward. Jed, known for his quick temper and even quicker draw, looked ready to rumble.
+Maya, flustered by Finn's clumsiness and Leo's ineptitude, accidentally discharged her paintball gun. A shower of pepper spray rained down on a bewildered elderly woman attempting to deposit her social security check. Chaos erupted.
 
-Mel gulped. She hadn't factored in Jedediah "Living Legend" Stone into her pathetic plan.
+Coughing and sputtering, customers dove for cover behind desks and potted plants. Agnes, surprisingly agile for her age, ducked under the counter and screamed, "Heist! We're being robbed!"
 
-"Get down on the ground, little lady!" Jed bellowed, drawing his own pistol - a gleaming, genuine, very real firearm.
+Leo, desperately trying to regain control, hopped onto the counter, briefcase swinging wildly. He landed awkwardly, sending a pile of deposit slips fluttering to the floor.
 
-"But... but it's not real!" Mel stammered, gesturing weakly with her water pistol.
+"Everyone, calm down! This is not a drill!" he shouted, his voice lost in the pandemonium.
 
-Jed paused, squinting. He looked from Mel's trembling hand to her tear-streaked face, then back to the water pistol. A slow, dawning realization spread across his face.
+Meanwhile, Finn, fueled by panic, grabbed a stack of withdrawal slips and started throwing them in the air, yelling, "Confetti! It's a party! Nobody move!"
 
-He lowered his gun. "That's... a water pistol?"
+The scene resembled a deranged office Christmas party gone horribly wrong.
 
-Mel nodded miserably.
+Agnes, reappearing from under the counter with a small handgun that looked suspiciously like it belonged to her grandson, yelled, "Get out! Get out now, you hooligans!"
 
-Jed burst out laughing. The tellers joined in. Even Mr. Henderson managed a snort.
+Seeing their carefully laid plans crumble around them, Leo, Maya, and Finn exchanged a look of utter defeat. Without a word, they scrambled off the counter, dodging flying pepper spray and crumpled withdrawal slips.
 
-The sound echoed through the bank, washing over Mel in a wave of shame and failure.
+They burst out of the bank and into the midday sun, a trio of failed criminals, leaving behind a bank in disarray and a group of bewildered customers.
 
-"Well, I'll be," Jed chuckled, wiping a tear from his eye. "Looks like we've got ourselves a modern-day Bonnie Parker, but she's armed with a squirt gun and a whole lot of bad luck."
+As they ran, Finn tripped again, this time sending Leo tumbling into a strategically placed garbage can. Maya helped them up, a weary smile playing on her lips.
 
-Then, something unexpected happened. Jed walked over to Mr. Henderson.
+"Well," she said, "that was... eventful."
 
-"Henderson," he said, his voice low and serious. "I've known the Hayes family for years. That bakery is a Willow Creek treasure. You're going to extend their credit line, and you're going to do it now."
+Leo sighed, dusting himself off. "Perhaps we should stick to accounting and bouncing. And maybe finding Finn a good pair of shoes."
 
-Mr. Henderson, faced with Jed's unwavering gaze and the sudden support of the entire bank (who were now thoroughly enjoying the spectacle), stammered, "Well, I... I suppose we could reconsider..."
+They didn't get any money, they didn't hurt anyone (intentionally, at least), and they were probably going to be on the evening news. But as they walked away from the scene of their disastrous heist, a strange sense of camaraderie settled over them. They were, after all, in this mess together. And maybe, just maybe, they were finally a team. Even if they were the world's worst bank robbers.
 
-He retreated to his office, muttering about regulations and risk assessments.
+Back in the bank, Agnes was calmly directing the cleanup, while the elderly woman, still coughing, was being comforted with a cup of tea. The police arrived, sirens blaring, to find a scene of comical chaos.
 
-While Mr. Henderson hemmed and hawed, Jed turned to Mel, a gentle smile on his face.
-
-"Come on, little lady," he said, "Let's go get you a cup of coffee. We need to figure out a better way to save that bakery."
-
-Mel, still clutching her water pistol, followed Jed out of the bank, leaving behind a room buzzing with laughter and disbelief.
-
-She didn't get away with any money, but she did get something far more valuable: the support of her community. And maybe, just maybe, that was all she needed. As she sat in the diner, sipping lukewarm coffee and listening to Jed's surprisingly insightful advice, Mel knew one thing for sure: she was done with bank robbery. Baking was her calling, and with a little help, she was determined to keep the family tradition alive, even if it meant facing Mr. Henderson and his disapproving gaze one pastry at a time. The Great Willow Creek Water Pistol Heist had failed spectacularly, but in its wake, it had watered the seeds of hope. And that, she thought, was a much sweeter outcome.
+The legend of the Harmony Creek Bank Heist was born. And somewhere, in a greasy spoon diner a few towns over, Leo, Maya, and Finn were already planning their next, hopefully less chaotic, adventure.
 
 
 --- Context Handling Example ---
 
 Large context request #1
-Using proxy: http://24.144.115.9:8888
-Request completed using proxy: http://24.144.115.9:8888, Time: 1.92s
-Response: You haven't provided a document. You've only repeated the phrase "Here is a complex technical docume...
-Usage: 509 tokens
+Using proxy: http://60.187.245.153:8085
+Request completed using proxy: http://60.187.245.153:8085, Time: 2.01s
+Response: You haven't provided a document. You've simply repeated the phrase "Here is a complex technical docu...
+Usage: 511 tokens
 
 Large context request #2
-Using proxy: http://203.19.38.114:1080
-Request completed using proxy: http://203.19.38.114:1080, Time: 1.71s
+Using proxy: http://81.169.213.169:8888
+Request completed using proxy: http://81.169.213.169:8888, Time: 1.90s
 Response: You did not provide a document. You repeated the phrase "Here is a complex technical document about ...
 Usage: 506 tokens
 
 --- Image Input Example ---
-Using proxy: http://40.76.209.52:3128
-Request completed using proxy: http://40.76.209.52:3128, Time: 6.58s
+Using proxy: http://97.74.87.226:80
+Request completed using proxy: http://97.74.87.226:80, Time: 3.91s
 Image description: Here's a description of the image:
 
-Eye-level view of the Colosseum in Rome at dusk or dawn. 
+Eye-level view of the Colosseum in Rome at twilight. 
 
 
 Here's a breakdown of the details:
 
-* **The Colosseum:** The iconic amphitheater dominates the frame, its aged stone structure clearly visible.  The arches are numerous and mostly intact, though some sections show signs of wear and damage, indicating its age and history.  The stone is a mix of browns and tans, appearing somewhat reddish in places due to the lighting. The interior of the arches is subtly illuminated, giving the structure a warm glow against the darkening sky.
+* **The Colosseum:** The ancient amphitheater dominates the image, its weathered stone facade illuminated by a soft, warm light emanating from within the arches. The lighting highlights the structure's aged texture and the many levels of arches. Some sections show significant damage and decay, while others are more intact. The overall state suggests centuries of history and wear.
 
-* **Lighting and Sky:** The sky is a beautiful blend of blues and hints of clouds, characteristic of twilight. The lighting is soft and diffused, enhancing the texture and depth of the Colosseum's stonework.  The warmer light from within the arches contrasts nicely with the cooler tones of the sky.
+* **The Sky:** The sky is a beautiful twilight blue, with some clouds adding texture and depth to the scene. The color palette suggests either early evening or early morning.
 
-* **Surroundings:** The immediate foreground is a relatively flat paved area, appearing calm and possibly deserted.  Beyond the Colosseum, there's a low-lying area of grass, and in the far background, some dark trees and what appears to be a distant street or road can be made out, suggesting the urban context. 
+* **The Surroundings:** The immediate surroundings of the Colosseum are relatively quiet and sparsely populated. A paved area extends in front, and there's a hint of short grass and possibly some landscaping beyond that. Trees are visible in the distance to the right, suggesting a park-like setting or surrounding urban area. A few lights can be seen in the distance, adding to the twilight atmosphere.
 
-The overall impression is one of serene beauty and historical significance. The image successfully captures the grandeur of the Colosseum at a peaceful, contemplative time of day.
+* **Overall Atmosphere:** The image conveys a sense of peace and tranquility. The combination of the historic monument, the soft lighting, and the serene sky creates a calm and almost melancholic mood. The perspective and wide angle capture the majesty and scale of the Colosseum effectively.
 
 
 --- Additional GenerationConfig Params Example ---
-Using proxy: http://218.77.183.214:5224
-Error: litellm.RateLimitError: litellm.RateLimitError: VertexAIException - {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
-            "quotaId": "GenerateRequestsPerMinutePerProjectPerModel-FreeTier",
-            "quotaDimensions": {
-              "location": "global",
-              "model": "gemini-1.5-pro"
-            },
-            "quotaValue": "2"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.RetryInfo",
-        "retryDelay": "31s"
-      }
-    ]
-  }
-}
-
+Using proxy: http://66.201.7.151:3128
+Request completed using proxy: http://66.201.7.151:3128, Time: 16.31s
+Response with custom generation params: The Clockwork Crow, perched atop the Grand Cog, surveyed the city of Aethelburg. Its brass feathers ...
 
 --- Image Generation Example ---
-Using proxy: http://40.76.209.52:3128
-Request completed using proxy: http://40.76.209.52:3128, Time: 5.06s
-Image generated successfully. Base64 data starts with: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqcA...
+Using proxy: http://218.75.224.4:3309
+Request completed using proxy: http://218.75.224.4:3309, Time: 5.56s
+Image generated successfully. Base64 data starts with: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAA...
 Image saved to generated_image.png
