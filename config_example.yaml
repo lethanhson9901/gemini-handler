@@ -48,13 +48,24 @@ gemini:
         - "QUESTION_ANSWERING"
         - "FACT_VERIFICATION"
         - "CODE_RETRIEVAL_QUERY"
-  
-proxy:
-  http: "http://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335"
-  https: "https://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335"
 
-  # Auto proxy settings (using SwiftShadow)
-  auto_proxy:
-    auto_update: true    # Automatically update proxy list
-    auto_rotate: true    # Rotate through proxies for each request
-    update_interval: 15  # Update interval in seconds
+# --- Proxy Configuration ---
+proxy:
+  # Required: Choose the proxy mode.
+  # Options:
+  #   'swiftshadow': Use the SwiftShadow library to get dynamic proxies.
+  #                  Requires SwiftShadow to be installed and working.
+  #   'custom':      Use the static list of proxies defined below in 'custom_list'.
+  # Default: If the 'proxy' section or the 'mode' key is missing, it defaults to 'swiftshadow'.
+  mode: custom  # <--- CHANGE THIS: 'custom' or 'swiftshadow'
+
+  # Required ONLY if mode is 'custom':
+  # A list of your custom proxy server URLs.
+  # The script will randomly select one proxy from this list for each request.
+  # Format: scheme://[user:password@]host:port
+  custom_list:
+    - "http://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335" # Example from your request
+    - "https://brd-customer-hl_8d87b67a-zone-residential_proxy1:eb0e1vrv5v2g@brd.superproxy.io:33335"
+    # - "https://user2:pass2@another-proxy.com:8080" # Example with HTTPS
+    # - "http://some-other-proxy.org:9999"          # Example without authentication
+    # - "socks5://user3:pass3@socks-proxy.net:1080" # SOCKS proxy (ensure tls_requests supports socks format if needed, typically http/https are used for its 'proxies' dict)
