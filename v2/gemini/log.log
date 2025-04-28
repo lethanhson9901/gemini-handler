@@ -1,0 +1,251 @@
+Warning: Could not import GoogleSearchRetrieval type. Grounding will likely fail.
+
+============================================================
+--- Gemini API Feature Runner (gemini-2.5-flash-preview-04-17) ---
+============================================================
+
+============================================================
+--- II. Setup and Initialization ---
+============================================================
+II.A Installation: Assumed user has run 'pip install -U google-generativeai requests Pillow'
+
+--- II.B Authentication & Initialization ---
+Configuring Google AI Studio access (using API Key)...
+Verifying access to model: models/gemini-2.5-flash-preview-04-17
+Successfully verified access. Model: Gemini 2.5 Flash Preview 04-17
+Initialization successful for model family.
+GenerativeModel instance created for 'gemini-2.5-flash-preview-04-17'.
+
+============================================================
+--- V. Exploring Advanced Capabilities ---
+============================================================
+
+--- V.A Thinking & Reasoning Control ---
+
+Running with Default Thinking...
+(Default Time: 11.80s)
+  Usage (Default): Total Tokens: 2332, Thinking Tokens: N/A
+
+Skipping Explicit Thinking Budget control due to SDK structure uncertainty.
+
+--- V.B Function Calling ---
+User Prompt: What's the weather like in Boston today in fahrenheit?
+--- Model requested Function Call: get_current_weather({'location': 'Boston, MA', 'unit': 'fahrenheit'}) ---
+--- SIMULATING External Call: get_current_weather(location='Boston, MA', unit='fahrenheit') ---
+--- Function Execution Result: {'location': 'Boston, MA', 'temperature': '15', 'unit': 'fahrenheit', 'description': 'Partly cloudy'} ---
+--- Sending Function Response back to model ---
+AttributeError during Function Calling: module 'google.generativeai.types' has no attribute 'Part'
+      (Check SDK documentation for FunctionDeclaration/Tool/Proto structure)
+
+--- V.C Output Control & Configuration ---
+
+--- V.C.1 Structured Output (JSON) ---
+Requesting JSON Output via Prompt + response_mimetype...
+Raw Text Output from Model:
+{
+  "name": "Sarah Chen",
+  "title": "Lead Data Scientist",
+  "company": "Quantum Dynamics Inc."
+}
+
+Successfully Parsed JSON:
+{
+  "name": "Sarah Chen",
+  "title": "Lead Data Scientist",
+  "company": "Quantum Dynamics Inc."
+}
+
+--- V.C.2 System Instructions ---
+Response with System Instruction:
+Okay, imagine you're working on a school project, and you keep saving different versions of your document like "essay_v1.doc", "essay_v2.doc", "essay_final.doc", "essay_really_final.doc", etc. Version control systems like Git automate and massively improve this process, especially when working on software.
+
+Here are the main benefits:
+
+*   **Keeps a History of Everything:** Git records *every* change you make to your project over time. You can see exactly what was changed, when, and who changed it.
+*   **Go Back to Any Point:** Made a mistake? Broke something? You can easily "travel back in time" and restore your project to an earlier state where everything was working. It's like a super-powered undo button for your entire project.
+*   **Makes Teamwork Easy:** Multiple people can work on the same project at the same time without overwriting each other's work. Git helps merge everyone's changes together smoothly and helps resolve conflicts if they happen.
+*   **Experiment Safely:** You can create separate "branches" to try out new features or fix bugs without affecting the main, stable version of your project. If your experiment doesn't work, you can just discard the branch. If it works, you can easily add it to the main project.
+*   **Understand Changes:** You can see exactly *who* changed *what* line of code and *why* (if commit messages are good). This is invaluable for understanding how the project evolved and tracking down issues.
+*   **Acts as a Backup:** While not its primary purpose, Git often stores your project's history in multiple places (like on your computer and a service like GitHub or GitLab), providing a form of backup.
+
+In short, Git helps you track, manage, and collaborate on your code more effectively and safely.
+
+--- V.C.3 Generation Parameters ---
+
+Focused Response (Temp=0.3, TopP=0.8):
+
+
+Creative Response (Temp=0.95, TopP=0.95, Candidates=1):
+Candidate 1: 
+
+--- V.C.4 Safety Settings ---
+
+Testing with 'Default' Safety...
+Result: Generated
+
+Testing with 'Strict (Dangerous=Medium)' Safety...
+Result: Generated
+
+Testing with 'Lenient (Dangerous=High)' Safety...
+Result: Generated
+
+Safety Settings Summary:
+  Default: Generated
+  Strict (Dangerous=Medium): Generated
+  Lenient (Dangerous=High): Generated
+
+--- V.D Grounding with Google Search (Retrieval Attempt) ---
+Skipped - Required type (GoogleSearchRetrieval) not found
+
+--- V.E Code Execution ---
+Requesting Response with Code Execution Enabled...
+
+Model Response (Code Execution):
+``` python
+import math
+
+n = 15
+factorial_n = math.factorial(n)
+print(f"The factorial of {n} is {factorial_n}")
+
+```
+```
+The factorial of 15 is 1307674368000
+
+```
+The factorial of 15 is 1,307,674,368,000.
+
+I calculated this using the following Python code:
+
+``` python
+import math
+
+n = 15
+factorial_n = math.factorial(n)
+print(factorial_n)
+
+```
+```
+1307674368000
+
+```
+
+Found Executable Code Part:
+  Code: import math
+
+n = 15
+factorial_n = math.factorial(n)
+print(f"The factorial of {n} is {factorial_n}")
+
+
+Found Code Execution Result Part:
+  Outcome: 1
+  Output: The factorial of 15 is 1307674368000
+
+
+Found Executable Code Part:
+  Code: import math
+
+n = 15
+factorial_n = math.factorial(n)
+print(factorial_n)
+
+
+Found Code Execution Result Part:
+  Outcome: 1
+  Output: 1307674368000
+
+
+--- V.F Context Caching (Conceptual - Skipping) ---
+Context Caching requires specific API endpoints or SDK features.
+
+============================================================
+--- VII. Discovering Models Programmatically ---
+============================================================
+Listing available models supporting 'generateContent'...
+- models/gemini-1.0-pro-vision-latest           (Gemini 1.0 Pro Vision)
+- models/gemini-pro-vision                      (Gemini 1.0 Pro Vision)
+- models/gemini-1.5-pro-latest                  (Gemini 1.5 Pro Latest)
+- models/gemini-1.5-pro-001                     (Gemini 1.5 Pro 001)
+- models/gemini-1.5-pro-002                     (Gemini 1.5 Pro 002)
+- models/gemini-1.5-pro                         (Gemini 1.5 Pro)
+- models/gemini-1.5-flash-latest                (Gemini 1.5 Flash Latest)
+- models/gemini-1.5-flash-001                   (Gemini 1.5 Flash 001)
+- models/gemini-1.5-flash-001-tuning            (Gemini 1.5 Flash 001 Tuning)
+- models/gemini-1.5-flash                       (Gemini 1.5 Flash)
+- models/gemini-1.5-flash-002                   (Gemini 1.5 Flash 002)
+- models/gemini-1.5-flash-8b                    (Gemini 1.5 Flash-8B)
+- models/gemini-1.5-flash-8b-001                (Gemini 1.5 Flash-8B 001)
+- models/gemini-1.5-flash-8b-latest             (Gemini 1.5 Flash-8B Latest)
+- models/gemini-1.5-flash-8b-exp-0827           (Gemini 1.5 Flash 8B Experimental 0827)
+- models/gemini-1.5-flash-8b-exp-0924           (Gemini 1.5 Flash 8B Experimental 0924)
+- models/gemini-2.5-pro-exp-03-25               (Gemini 2.5 Pro Experimental 03-25)
+- models/gemini-2.5-pro-preview-03-25           (Gemini 2.5 Pro Preview 03-25)
+- models/gemini-2.5-flash-preview-04-17         (Gemini 2.5 Flash Preview 04-17)
+- models/gemini-2.0-flash-exp                   (Gemini 2.0 Flash Experimental)
+- models/gemini-2.0-flash                       (Gemini 2.0 Flash)
+- models/gemini-2.0-flash-001                   (Gemini 2.0 Flash 001)
+- models/gemini-2.0-flash-exp-image-generation  (Gemini 2.0 Flash (Image Generation) Experimental)
+- models/gemini-2.0-flash-lite-001              (Gemini 2.0 Flash-Lite 001)
+- models/gemini-2.0-flash-lite                  (Gemini 2.0 Flash-Lite)
+- models/gemini-2.0-flash-lite-preview-02-05    (Gemini 2.0 Flash-Lite Preview 02-05)
+- models/gemini-2.0-flash-lite-preview          (Gemini 2.0 Flash-Lite Preview)
+- models/gemini-2.0-pro-exp                     (Gemini 2.0 Pro Experimental)
+- models/gemini-2.0-pro-exp-02-05               (Gemini 2.0 Pro Experimental 02-05)
+- models/gemini-exp-1206                        (Gemini Experimental 1206)
+- models/gemini-2.0-flash-thinking-exp-01-21    (Gemini 2.5 Flash Preview 04-17)
+- models/gemini-2.0-flash-thinking-exp          (Gemini 2.5 Flash Preview 04-17)
+- models/gemini-2.0-flash-thinking-exp-1219     (Gemini 2.5 Flash Preview 04-17)
+- models/learnlm-1.5-pro-experimental           (LearnLM 1.5 Pro Experimental)
+- models/learnlm-2.0-flash-experimental         (LearnLM 2.0 Flash Experimental)
+- models/gemma-3-1b-it                          (Gemma 3 1B)
+- models/gemma-3-4b-it                          (Gemma 3 4B)
+- models/gemma-3-12b-it                         (Gemma 3 12B)
+- models/gemma-3-27b-it                         (Gemma 3 27B)
+
+Found 39 models supporting 'generateContent'.
+
+Getting Details for models/gemini-2.5-flash-preview-04-17...
+  Name: models/gemini-2.5-flash-preview-04-17
+  Display Name: Gemini 2.5 Flash Preview 04-17
+  Version: 2.5-preview-04-17
+  Input Limit: 1048576
+  Output Limit: 65536
+  Supported Methods: ['generateContent', 'countTokens', 'createCachedContent']
+
+============================================================
+--- VI. Essential Tooling ---
+============================================================
+VI.A Google AI Studio: Web UI for prototyping (used for API Key).
+VI.B Vertex AI Platform: GCP managed environment for production.
+VI.C REST API: Direct HTTPS interface.
+VI.D Community & Learning: Cookbook, Docs, Forums.
+
+============================================================
+--- Final Execution Report ---
+============================================================
+Gemini Model Used: gemini-2.5-flash-preview-04-17
+------------------------------------------------------------
+[SKIPPED]  II.A Installation              | Status: Skipped - User Prerequisite
+[OK]       II.B Initialization            | Status: Success
+[???]      III.A Basic Text               | Status: Status Not Recorded
+[???]      III.C Inspect Response         | Status: Status Not Recorded
+[???]      III.D Streaming                | Status: Status Not Recorded
+[???]      IV.A Image+Text                | Status: Status Not Recorded
+[???]      IV.B Video+Text                | Status: Status Not Recorded
+[???]      IV.C Audio+Text                | Status: Status Not Recorded
+[???]      IV.D PDF+Text                  | Status: Status Not Recorded
+[???]      IV.E Combined                  | Status: Status Not Recorded
+[SKIPPED]  V.A Thinking Control           | Status: Partial - Default Ran, Explicit Skipped (SDK Limitation?)
+[FAILED]   V.B Function Calling           | Status: Failed - AttributeError (Check SDK Docs)
+[OK]       V.C.1 JSON Output              | Status: Success
+[OK]       V.C.2 System Instruction       | Status: Success
+[OK]       V.C.3 Generation Params        | Status: Success
+[OK]       V.C.4 Safety Settings          | Status: Completed (Check Summary)
+[SKIPPED]  V.D Grounding                  | Status: Skipped - Required type (GoogleSearchRetrieval) not found
+[OK]       V.E Code Execution             | Status: Success
+[SKIPPED]  V.F Context Caching            | Status: Skipped - Not Standard API
+[OK]       VI Tooling                     | Status: Informational
+[OK]       VII Model Discovery            | Status: Success
+============================================================
+Report Complete.
