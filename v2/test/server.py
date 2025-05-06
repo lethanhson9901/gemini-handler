@@ -102,7 +102,9 @@ async def background_task():
         logger.info("Updating proxies...")
         try:
             await swift.async_update()
-            logger.info(f"Proxy pool updated, available proxies: {swift.count}")
+            # Get the proxy count properly
+            proxy_count = len(swift.proxies) if hasattr(swift, 'proxies') else 0
+            logger.info(f"Proxy pool updated, available proxies: {proxy_count}")
         except Exception as e:
             logger.error(f"Failed to update proxies: {e}")
         await asyncio.sleep(60)
@@ -470,12 +472,34 @@ async def get_model(
 @app.get("/status")
 async def status():
     """Check if the server is running"""
+    proxy_count = len(swift.proxies) if USE_PROXIES and swift else "disabled"
     return {
         "status": "ok",
-        "proxy_count": swift.count if USE_PROXIES and swift else "disabled",
+        "proxy_count": proxy_count,
         "api_key_count": len(gemini_keys),
         "key_failures": key_manager.fail_count if key_manager else {}
     }
+
+# Helper function to get client with proxy - corrected version
+def get_client_with_proxy():
+    if not USE_PROXIES or not swift:
+        return httpx.AsyncClient(timeout=60.0)
+    
+    try:
+        proxy = swift.get()
+        if not proxy:
+            logger.warning("No proxy available, using direct connection")
+            return httpx.AsyncClient(timeout=60.0)
+        
+        proxy_url = proxy.as_string()
+        logger.debug(f"Using proxy: {proxy_url}")
+        
+        # Correct way to set proxies in httpx AsyncClient
+        proxies = {"http://": proxy_url, "https://": proxy_url}
+        return httpx.AsyncClient(proxies=proxies, timeout=60.0)
+    except Exception as e:
+        logger.error(f"Error getting proxy: {e}")
+        return httpx.AsyncClient(timeout=60.0)
 
 # Reset failed key counters
 @app.post("/admin/reset-failures")
