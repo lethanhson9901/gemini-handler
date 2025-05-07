@@ -1,78 +1,58 @@
-# Gemini API Gateway: Tăng Cường Độ Tin Cậy và Khả Năng Mở Rộng
+# 🌐 Gemini API Gateway (SwiftProxy + HealthCheck + Retry)
 
-**Phiên bản:** 1.3.1
+Đây là một **API Gateway tùy biến** cho Google Gemini, hỗ trợ:
 
-## Tổng Quan
+* ✅ Quản lý và xoay vòng **nhiều API key**
+* 🧠 Kiểm tra proxy đầu vào và duy trì **danh sách whitelist proxy khỏe**
+* 🔁 Retry tự động khi gặp lỗi kết nối
+* 🌐 Sử dụng proxy từ **SwiftShadow**
+* 🧪 Fallback sang kết nối trực tiếp nếu không proxy nào khả dụng
 
-Gemini API Gateway là một ứng dụng FastAPI được thiết kế để tối ưu hóa việc tương tác với Google Gemini API. Gateway này hoạt động như một lớp trung gian thông minh, cung cấp các tính năng quản lý proxy nâng cao, kiểm tra sức khỏe tự động, cơ chế thử lại linh hoạt và bảo mật truy cập, nhằm đảm bảo tính ổn định và hiệu suất cao cho các ứng dụng sử dụng Gemini.
+---
 
-## Tính Năng Nổi Bật
+## 🚀 1. Cài đặt môi trường
 
-*   **Chuyển Tiếp Yêu Cầu An Toàn:** Định tuyến các yêu cầu API đến Gemini một cách bảo mật, tự động quản lý khóa API Gemini.
-*   **Quản Lý Proxy Động:** Tích hợp với `swiftshadow` để thu thập và quản lý danh sách proxy.
-*   **Kiểm Tra Sức Khỏe Proxy Chuyên Sâu:**
-    *   Tự động xác minh tính khả dụng và hiệu suất của proxy bằng cách thực hiện các lệnh gọi kiểm tra đến một endpoint Gemini cụ thể.
-    *   Chỉ những proxy vượt qua kiểm tra mới được đưa vào danh sách hoạt động (whitelist).
-    *   Định kỳ kiểm tra lại các proxy trong whitelist và loại bỏ những proxy không còn đáp ứng.
-*   **Danh Sách Trắng Proxy (Whitelist):** Ưu tiên sử dụng các proxy đã được kiểm chứng để tối đa hóa tỷ lệ thành công của yêu cầu.
-*   **Cơ Chế Thử Lại (Retry) Thông Minh:**
-    *   Tự động thử lại yêu cầu qua một proxy khác nếu gặp lỗi mạng hoặc proxy.
-    *   Hỗ trợ cấu hình số lần thử lại và thời gian trễ giữa các lần thử.
-*   **Dự Phòng Kết Nối Trực Tiếp:** Tùy chọn chuyển sang kết nối trực tiếp đến Gemini API nếu tất cả các nỗ lực qua proxy đều thất bại.
-*   **Xoay Vòng Khóa API Gemini:** Phân phối yêu cầu qua nhiều khóa API Gemini để tránh giới hạn rate-limit và tăng khả năng phục hồi.
-*   **Bảo Mật Gateway:** Truy cập vào gateway được kiểm soát thông qua một khóa API riêng biệt.
-*   **Cấu Hình Tập Trung:** Quản lý toàn bộ cài đặt qua tệp `config.yaml` dễ hiểu.
-*   **Logging Chi Tiết:** Ghi lại hoạt động và lỗi để hỗ trợ giám sát và gỡ rối.
-*   **Endpoint Giám Sát Trạng Thái:** Cung cấp endpoint `/_gateway/health` để theo dõi tình trạng hoạt động của gateway.
+### Yêu cầu:
 
-## Yêu Cầu Hệ Thống
+* Python 3.8+
+* Hệ điều hành: Ubuntu/Linux/MacOS
 
-*   Python 3.8+
-*   `pip` (Trình quản lý gói Python)
+### Cài thư viện:
 
-## Hướng Dẫn Cài Đặt
+```bash
+pip install -r requirements.txt
+```
 
-1.  **Tải Mã Nguồn:**
-    Sao chép (clone) repository hoặc tải tệp mã nguồn chính (ví dụ: `gemini_gateway.py`).
+> Tạo file `requirements.txt` với nội dung:
 
-2.  **Cài Đặt Thư Viện Phụ Thuộc:**
-    Tạo tệp `requirements.txt` với nội dung sau:
-    ```txt
-    fastapi
-    uvicorn[standard]
-    httpx
-    PyYAML
-    swiftshadow
-    ```
-    Sau đó, chạy lệnh sau trong terminal tại thư mục dự án:
-    ```bash
-    pip install -r requirements.txt
-    ```
+```txt
+fastapi
+uvicorn[standard]
+httpx
+pyyaml
+swiftshadow
+```
 
-3.  **Thiết Lập Tệp Cấu Hình (`config.yaml`):**
-    Tạo tệp `config.yaml` trong thư mục gốc của dự án. Tham khảo mục **Cấu Hình** bên dưới.
+---
 
-## Cấu Hình (`config.yaml`)
+## ⚙️ 2. Cấu hình hệ thống
 
-Tệp `config.yaml` cho phép tùy chỉnh các khía cạnh hoạt động của gateway.
-
-**Ví dụ cấu hình cơ bản:**
+Tạo file `config.yaml` với nội dung mẫu sau:
 
 ```yaml
 server_settings:
+  server_key: "sk-1234"
   host: "0.0.0.0"
   port: 8000
-  server_key: "YOUR_SECURE_GATEWAY_KEY" # Thay thế bằng khóa API mạnh cho gateway
 
 gemini:
-  api_keys:
-    - "YOUR_GEMINI_API_KEY_1"         # Thay thế bằng khóa API Gemini của bạn
-    - "YOUR_GEMINI_API_KEY_2"         # (Tùy chọn) Thêm khóa khác để xoay vòng
   base_url: "https://generativelanguage.googleapis.com"
+  api_keys:
+    - "AIzaSy..."  # Thêm các khóa Gemini API của bạn
 
 proxy_settings:
-  auto_update_interval_seconds: 300
-  max_proxies: 50 # Số lượng proxy tối đa swiftshadow quản lý
+  auto_update_interval_seconds: 60
+  max_proxies: 100
 
 retry_settings:
   max_request_retries: 2
@@ -81,82 +61,82 @@ retry_settings:
 
 health_check_settings:
   enabled: true
-  health_check_api_key: "GEMINI_API_KEY_FOR_HEALTH_CHECKS" # KHUYẾN NGHỊ: Dùng khóa riêng
-  health_check_model_endpoint: "v1beta/models/gemini-1.5-flash-latest" # Endpoint kiểm tra
-  timeout_seconds: 10
-  max_concurrent_checks: 5
+  health_check_model_endpoint: "v1beta/models/gemini-2.0-flash"
+  health_check_api_key: "AIzaSy..."
+  timeout_seconds: 15
+  max_concurrent_checks: 10
+  min_whitelist_size: 5
   proxy_recheck_interval_seconds: 300
 ```
 
-**Các tham số quan trọng:**
+---
 
-*   `server_settings.server_key`: Khóa API bí mật để xác thực các yêu cầu đến gateway.
-*   `gemini.api_keys`: Danh sách các khóa API Google Gemini. Ít nhất một khóa là bắt buộc.
-*   `health_check_settings.enabled`: Bật/tắt tính năng kiểm tra sức khỏe proxy.
-*   `health_check_settings.health_check_api_key`: **Khuyến nghị mạnh mẽ** sử dụng một khóa API Gemini riêng cho việc kiểm tra sức khỏe để tránh ảnh hưởng đến quota của các khóa chính.
-
-## Khởi Chạy Gateway
-
-Thực thi tệp Python chính từ terminal:
+## ▶️ 3. Khởi chạy server
 
 ```bash
-python gemini_gateway.py # Hoặc tên tệp Python của bạn
+python gemini_gateway.py
 ```
 
-Gateway sẽ khởi động và sẵn sàng nhận yêu cầu tại địa chỉ và cổng đã cấu hình (ví dụ: `http://0.0.0.0:8000`).
+> ✅ Server sẽ tự động khởi động tại `http://0.0.0.0:8000`
 
-## Sử Dụng Gateway
+---
 
-Để gửi yêu cầu đến Gemini API thông qua gateway:
+## 📡 4. Gửi request mẫu
 
-1.  **Endpoint:** Sử dụng URL của gateway (ví dụ: `http://localhost:8000`) theo sau là đường dẫn API của Gemini (ví dụ: `/v1beta/models/gemini-1.5-flash-latest:generateContent`).
-2.  **Xác Thực Gateway:** Cung cấp `server_key` (đã định nghĩa trong `config.yaml`) thông qua:
-    *   Header `X-Server-Key: YOUR_SECURE_GATEWAY_KEY`
-    *   Query parameter `?key=YOUR_SECURE_GATEWAY_KEY`
-
-Gateway sẽ tự động chọn một khóa API Gemini và proxy (nếu được kích hoạt và có sẵn) để xử lý yêu cầu.
-
-**Ví dụ với `curl`:**
+### Gửi request `POST` đến Gemini API:
 
 ```bash
-curl -X POST "http://localhost:8000/v1beta/models/gemini-1.5-flash-latest:generateContent" \
+curl -X POST "http://localhost:8000/v1beta/models/gemini-2.0-pro:generateContent" \
      -H "Content-Type: application/json" \
-     -H "X-Server-Key: YOUR_SECURE_GATEWAY_KEY" \
+     -H "X-Server-Key: sk-1234" \
      -d '{
-           "contents": [{
-             "parts":[{
-               "text": "Translate 'hello' to Vietnamese."
-             }]
-           }]
-         }'
+       "contents": [{"role": "user", "parts": [{"text": "Viết một đoạn giới thiệu bản thân"}]}]
+     }'
 ```
 
-## Các Endpoint của Gateway
+### Gửi request `GET` lấy danh sách model:
 
-*   **`/{full_path:path}` (GET, POST, PUT, DELETE):**
-    *   Chuyển tiếp yêu cầu đến Gemini API. `full_path` tương ứng với đường dẫn API của Gemini.
-    *   Yêu cầu xác thực bằng `server_key`.
+```bash
+curl -X GET "http://localhost:8000/v1/models" \
+     -H "X-Server-Key: sk-1234"
+```
 
-*   **`/_gateway/health` (GET):**
-    *   Cung cấp thông tin trạng thái của gateway, bao gồm số lượng proxy hoạt động, trạng thái kiểm tra sức khỏe, v.v.
-    *   Không yêu cầu xác thực (theo mặc định).
-    *   **Phản hồi mẫu:**
-        ```json
-        {
-            "status": "healthy",
-            "gemini_keys_available": 2,
-            "health_checks_enabled": true,
-            "whitelisted_proxies_count": 7,
-            "recently_failed_proxies_tracked": 12,
-            "min_whitelist_target": 5
-        }
-        ```
+---
 
-## Logging
+## 📊 5. Kiểm tra sức khỏe gateway
 
-Gateway ghi lại các thông tin vận hành quan trọng và lỗi vào console, hỗ trợ việc theo dõi và gỡ rối. Mức log mặc định là `INFO`.
+```bash
+curl http://localhost:8000/_gateway/health
+```
 
-## Lưu Ý Kỹ Thuật
+Kết quả mẫu:
 
-*   **Cơ chế kiểm tra sức khỏe proxy:** Gateway gửi một yêu cầu GET đơn giản (ví dụ: liệt kê models) đến Gemini API thông qua từng proxy. Proxy được coi là khỏe mạnh nếu yêu cầu thành công (HTTP 200) trong khoảng thời gian chờ (`timeout_seconds`).
-*   **Tích hợp `swiftshadow`:** Gateway sử dụng `swiftshadow` để lấy danh sách proxy ban đầu. Cấu hình và hoạt động của `swiftshadow` (ví dụ: nguồn proxy) nằm ngoài phạm vi trực tiếp của gateway này nhưng là một phần quan trọng của hệ thống.
+```json
+{
+  "status": "healthy",
+  "gemini_keys_available": 5,
+  "health_checks_enabled": true,
+  "whitelisted_proxies_count": 12,
+  "recently_failed_proxies_tracked": 4,
+  "min_whitelist_target": 5
+}
+```
+
+---
+
+## 🛡️ 6. Bảo mật API
+
+* Mọi request phải đính kèm `X-Server-Key` header đúng như cấu hình `server_key`
+* Hệ thống từ chối các truy cập không xác thực
+
+---
+
+## 💡 Ghi chú
+
+* Proxy sẽ được kiểm tra định kỳ để đảm bảo hiệu suất
+* Nếu tất cả proxy đều lỗi, hệ thống tự động fallback sang kết nối trực tiếp
+* SwiftShadow tự động cập nhật danh sách proxy công cộng
+
+---
+
+Bạn có muốn mình tạo thêm ảnh mô tả kiến trúc hệ thống không?
