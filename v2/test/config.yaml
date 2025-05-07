@@ -1,0 +1,46 @@
+server_settings:
+  # This is the key clients will use to authenticate with YOUR FastAPI server
+  server_key: "sk-1234"
+  # Host and port for your FastAPI server
+  host: "0.0.0.0" # Listen on all interfaces
+  port: 8000
+
+gemini:
+  # Base URL for the Gemini API
+  base_url: "https://generativelanguage.googleapis.com"
+  # Your Gemini API keys
+  api_keys:
+    - "AIzaSyBmWf7COPcA6r62lDUoZ3x0dp47iy7ttSk" # lethanhson99907
+    - "AIzaSyAIsEdv54bT-UixRDnG5aoOGXbGaybPHMM" # lethanhson99908
+    - "AIzaSyAVdmkCpQYqOF_z3De8FgMkHRLNGBH6Gyg" # lethanhson99909
+    - "AIzaSyCQ29b5uqw105bPve8a8V1_BdNBamdybeE" # lethanhson99910
+    - "AIzaSyBo2dhrF5PcY42TwjITg7-_9m8DchRlxHQ" # lethanhson99911
+    # Add more keys as needed
+    # - "AIzaSyDdNlWj2pbFmbdmBrqVVjyeyiYRE_WLC7o"
+    # - "AIzaSyAM8VMtzRI8hwGJxQi1MJsaMbTE9TUgoSo"
+    # - "AIzaSyD-1vxjJieiaW-h-0UadN6b5WlMz4w5Mo0"
+    # - "AIzaSyC26fs2N2Q1bvk-mwDp3XWGpdIuftJIhAU"
+    # - "AIzaSyCrvwcMCUITv6bQOUUC3yZzEALfPUzkI7U"
+    # - "AIzaSyATKqKhI6g4E0HjFuRSBGh24RmePxwt_fI"
+    # - "AIzaSyCiHTASekz7hYpuC1yFawd_GOU0qJiVm3k"
+    # - "AIzaSyAdGUNlS5zkHFG36AhZtM9iTMd4S41grYs"
+
+proxy_settings:
+  # swiftshadow settings
+  auto_update_interval_seconds: 60 # How often to refresh the proxy list
+  max_proxies: 100
+
+retry_settings:
+  max_request_retries: 2 
+  fallback_to_direct_on_failure: true
+  retry_delay_seconds: 1
+
+health_check_settings:
+  enabled: true 
+  # target_url: "https://generativelanguage.googleapis.com" # We'll construct this now
+  health_check_model_endpoint: "v1beta/models/gemini-2.0-flash" # Or gemini-pro, etc.
+  health_check_api_key: "AIzaSyCQ29b5uqw105bPve8a8V1_BdNBamdybeE" # IMPORTANT: Use a specific key or one from your pool
+  timeout_seconds: 15 # Might need slightly longer for a GET
+  max_concurrent_checks: 10 
+  min_whitelist_size: 5     
+  proxy_recheck_interval_seconds: 300
