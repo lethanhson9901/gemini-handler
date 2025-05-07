@@ -20,18 +20,9 @@
 ### Cài thư viện:
 
 ```bash
-pip install -r requirements.txt
+pip install fastapi uvicorn[standard] httpx==0.27.2 pyyaml swiftshadow
 ```
 
-> Tạo file `requirements.txt` với nội dung:
-
-```txt
-fastapi
-uvicorn[standard]
-httpx
-pyyaml
-swiftshadow
-```
 
 ---
 
